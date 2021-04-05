@@ -1,0 +1,11 @@
+apply plugin: 'com.android.application'
+apply from: '../shared.gradle'
+
+android{
+
+}
+
+dependencies {
+implementation project(path: ':login')
+}
+

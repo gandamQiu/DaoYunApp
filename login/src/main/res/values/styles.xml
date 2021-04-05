@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="test">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="label">
+        <item name="android:fontFamily">@font/arimo</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:typeface">normal</item>
+    </style>
+    <style name="inputStyle">
+        <item name="android:fontFamily">@font/arimo</item>
+        <item name="android:inputType">phone</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="inputBack">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">#1AEFE2E2</item>
+    </style>
+    <style name="dividerLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">#000000</item>
+    </style>
+    <style name="linkText">
+        <item name="android:fontFamily">@font/arimo</item>
+        <item name="android:textColor">@android:color/holo_blue_dark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="buttonFont">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

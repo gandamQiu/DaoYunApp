@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CodeFragment">
+
+    <data>
+
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/codeDividerLine1"
+            style="@style/dividerLine"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="128dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/codeDividerLine2"
+            style="@style/dividerLine"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/getCodeButton" />
+
+        <Button
+            android:id="@+id/getCodeButton"
+            style="@style/buttonFont"
+            android:layout_width="202dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/getCode"
+            app:backgroundTint="@android:color/holo_blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+            app:layout_constraintTop_toBottomOf="@+id/codeDividerLine1" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            style="@style/inputStyle"
+            android:layout_width="186dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:hint="@string/inputCode"
+            android:inputType="textPersonName"
+            app:layout_constraintBaseline_toBaselineOf="@+id/getCodeButton"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/codeNextButton"
+            style="@style/buttonFont"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/nextStep"
+            app:backgroundTint="@android:color/holo_blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/codeDividerLine2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
