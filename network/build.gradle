@@ -2,9 +2,10 @@ apply plugin: 'com.android.library'
 apply from: '../shared.gradle'
 
 android {
-
+    defaultConfig{
+        //applicationId "com.example.network"
+    }
 }
 
 dependencies {
-
 }

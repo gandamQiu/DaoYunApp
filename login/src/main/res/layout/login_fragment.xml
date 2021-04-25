@@ -4,161 +4,211 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".LoginFragment">
     <data>
+        <variable
+            name="viewmodel"
+            type="com.example.login.viewmodel.LoginViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/loginConstraint"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/dividerLine1"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo" />
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="0dp"
-            android:layout_height="229dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="163dp"
+            android:layout_gravity="center"
             android:src="@drawable/logo" />
 
-        <EditText
-            android:id="@+id/accountText"
-            style="@style/inputStyle"
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="@string/phoneHint"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/accountLabel"
-            app:layout_constraintTop_toBottomOf="@+id/dividerLine1" />
+            android:id="@+id/loginTabLayout">
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="使用密码登录"
+                tools:ignore="InvalidId"/>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="使用手机验证码登录"
+                tools:ignore="InvalidId" />
+        </com.google.android.material.tabs.TabLayout>
 
-        <TextView
-            android:id="@+id/accountLabel"
-            style="@style/label"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/account"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/accountText"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginTop="8dp">
 
-        <ImageView
-            android:id="@+id/dividerLine2"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/accountText" />
-
-        <ImageView
-            android:id="@+id/dividerLine3"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dividerLine2" />
-
-        <TextView
-            android:id="@+id/passwordLabel"
-            style="@style/label"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/account"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:textColor="@color/design_default_color_primary"
+                android:textSize="16sp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_text_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:background="@color/design_default_color_background"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:hint="@string/phoneHint"
+                    android:text="@={viewmodel.loginAccount}" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/password_layout_login"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/password"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/passwordText"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:orientation="vertical"
+            android:visibility="visible">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/password"
+                    android:textStyle="bold"
+                    android:paddingStart="8dp"
+                    android:textColor="@color/design_default_color_primary"
+                    android:textSize="16sp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    app:passwordToggleEnabled="true">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_text_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:background="@color/design_default_color_background"
+                        android:hint="请输入密码"
+                        android:inputType="textPassword"
+                        android:text="@={viewmodel.loginPassword}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/passwordText"
-            style="@style/inputStyle"
-            android:layout_width="wrap_content"
+            </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/registerText"
+                    style="@style/linkText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/register"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/forgivePasswordText"
+                    style="@style/linkText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/forgivePassword"
+                    app:layout_constraintBaseline_toBaselineOf="@id/registerText"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/passwordLabel"
-            app:layout_constraintTop_toBottomOf="@+id/dividerLine3" />
+            android:orientation="vertical"
+            android:id="@+id/code_layout_login"
+            android:visibility="gone">
+            <androidx.constraintlayout.widget.ConstraintLayout
 
-        <ImageView
-            android:id="@+id/dividerLine4"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/code_login"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/getCode_login"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/code_text_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/design_default_color_background"
+                        android:paddingStart="8dp"
+                        android:hint="请输入验证码"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:text="@={viewmodel.loginCode}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/getCode_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="获取短信验证码"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/fastLoginText"
+                    style="@style/linkText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="手机号快速注册"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+
+
 
         <Button
             android:id="@+id/loginButton"
             style="@style/buttonFont"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_margin="8dp"
             android:text="@string/login"
             app:backgroundTint="@android:color/holo_blue_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dividerLine4" />
-
+            />
         <TextView
-            android:id="@+id/registerText"
-            style="@style/linkText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/register"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
-
-        <TextView
-            android:id="@+id/forgivePasswordText"
-            style="@style/linkText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/forgivePassword"
-            app:layout_constraintBaseline_toBaselineOf="@+id/registerText"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/anotherAccountText"
-            style="@style/linkText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:gravity="center"
             android:text="@string/anotherAccount"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            />
+    </LinearLayout>
 </layout>

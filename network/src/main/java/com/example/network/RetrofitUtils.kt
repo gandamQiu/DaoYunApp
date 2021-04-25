@@ -4,9 +4,6 @@ import com.example.network.api.CodeApi
 import com.example.network.interceptor.HeaderInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
@@ -16,7 +13,6 @@ import java.util.concurrent.TimeUnit
 private const val BASEURL:String = ""
 
 class RetrofitUtils {
-
     companion object{
         val httpClient:OkHttpClient = OkHttpClient.Builder()
             .callTimeout(10, TimeUnit.SECONDS)//完整请求超时时长
@@ -34,20 +30,20 @@ class RetrofitUtils {
             .baseUrl(BASEURL)
             .addConverterFactory(GsonConverterFactory.create())//gson解析
             .build()
-    }
-
-    /**
-     * 获取验证码
-     */
-    fun getCode(phone:String){
         val api = retrofit.create(CodeApi::class.java)
+    }
+    fun getApi():CodeApi = api
+    /*
+    fun getCode(phone:String){
+
         api.getCode(phone).enqueue(object :Callback<Any?>{
             override fun onFailure(call: Call<Any?>, t: Throwable) {
-                TODO("Not yet implemented")
+
             }
             override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
-                TODO("Not yet implemented")
+
             }
         })
     }
+    */
 }

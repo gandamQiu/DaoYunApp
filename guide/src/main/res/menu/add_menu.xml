@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/createClassButton"
+            android:title="创建班课" />
+        <item
+            android:id="@+id/joinByCodeButton"
+            android:title="使用班课号加入班课" />
+        <item
+            android:id="@+id/joinByScanButton"
+            android:title="扫描二维码加入班课"/>
+</menu>

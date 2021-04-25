@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DaoYun">
+        <activity android:name=".CreateClassActivity"></activity>
         <activity
             android:name=".GuideActivity"
             android:label="@string/app_name">

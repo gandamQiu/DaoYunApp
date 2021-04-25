@@ -14,7 +14,7 @@ class WelcomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_welcome)
         val time:Long = measureTimeMillis {
             GlobalScope.launch {
-                Thread.sleep(2000)
+                Thread.sleep(200)
                 startActivity(Intent(this@WelcomeActivity,LoginActivity::class.java))
                 finish()
             }

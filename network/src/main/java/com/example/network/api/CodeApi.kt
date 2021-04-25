@@ -1,8 +1,8 @@
 package com.example.network.api
 
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.Field
+import retrofit2.http.POST
 
 /**
  * 手机验证码
@@ -10,7 +10,10 @@ import retrofit2.http.Query
 //todo 获取后台验证码路径
 private const val CODE_PATH = ""
 interface CodeApi {
-   @GET(CODE_PATH)
-   //todo 创建验证码bean
-   fun getCode(@Query("phone")phone:String):Call<Any?>
+   @POST(CODE_PATH)
+   fun getCode(@Field("phone")phone:String):Call<Any?>
+   @POST
+   fun loginByCode(@Field("phone")phone: String,@Field("code")code:String):Call<Any?>
+   @POST
+   fun loginByPassword(@Field("phone")phone: String,@Field("password")password:String):Call<Any?>
 }

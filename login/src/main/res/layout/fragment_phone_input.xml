@@ -5,72 +5,53 @@
     tools:context=".PhoneInputFragment">
 
     <data>
-
+        <variable
+            name="viewmodel"
+            type="com.example.login.viewmodel.LoginViewModel" />
     </data  >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/textView"
-            style="@style/label"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/phone"
-            android:textAlignment="center"
-            app:layout_constraintBaseline_toBaselineOf="@+id/phone"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/phone"
-            style="@style/inputStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:hint="@string/phoneHint"
-            android:inputType="phone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/dividerLine1" />
-
-        <ImageView
-            android:id="@+id/dividerLine1"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="128dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/dividerLine2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/dividerLine2"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phone" />
-
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/phone"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:textColor="@color/design_default_color_primary"
+                android:textSize="16sp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_text_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:background="@color/design_default_color_background"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:hint="@string/phoneHint"
+                    android:text="@={viewmodel.signupPhone}" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
         <Button
             android:id="@+id/phoneNextButton"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/getCode"
+            android:text="@string/nextStep"
             app:backgroundTint="@android:color/holo_blue_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dividerLine2"
+            android:layout_margin="8dp"
             style="@style/buttonFont" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

@@ -11,9 +11,9 @@
     <string name="getCode">获取验证码</string>
     <string name="inputCode">请输入验证码</string>
     <string name="nextStep">下一步</string>
-    <string name="setPassword">设置新密码</string>
+    <string name="setPassword">设置密码</string>
     <string name="confirmPassword">确认密码</string>
-    <string name="passwordHint">请输入新密码</string>
+    <string name="passwordHint">请输入密码</string>
     <string name="confirmPasswordHint">请再次输入密码</string>
     <string name="returnLogin">返回登录页面</string>
     <string name="name">姓名</string>

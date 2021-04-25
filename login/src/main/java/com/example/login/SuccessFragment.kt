@@ -19,10 +19,7 @@ class SuccessFragment : Fragment() {
         val binding: FragmentSuccessBinding = DataBindingUtil.inflate<FragmentSuccessBinding>(
             inflater,R.layout.fragment_success,container,false
         )
-        when(arguments?.getString("title")){
-            "注册" ->(activity as AppCompatActivity).supportActionBar?.title ="注册成功"
-            "忘记密码" -> (activity as AppCompatActivity).supportActionBar?.title ="修改成功"
-        }
+        (activity as AppCompatActivity).supportActionBar?.title ="成功"
         binding.successNextButton.setOnClickListener{view:View->
             Navigation.findNavController(view).navigate(R.id.action_successFragment_to_loginFragment)
         }

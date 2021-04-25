@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation project(path: ':guide')
+    implementation project(path: ':network')
 }
