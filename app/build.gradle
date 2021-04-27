@@ -6,6 +6,8 @@ android{
 }
 
 dependencies {
-implementation project(path: ':login')
+    implementation project(path: ':login')
+    implementation project(path: ':guide')
+    implementation project(path: ':network')
 }
 

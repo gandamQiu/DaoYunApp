@@ -34,6 +34,11 @@
         <action
             android:id="@+id/action_codeFragment_to_passwordFragment"
             app:destination="@id/passwordFragment" />
+        <action
+            android:id="@+id/action_codeFragment_to_successFragment"
+            app:destination="@id/successFragment"
+            app:popUpTo="@id/phoneInputFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/passwordFragment"

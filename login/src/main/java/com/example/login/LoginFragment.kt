@@ -1,10 +1,12 @@
 package com.example.login
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -12,10 +14,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.login.databinding.LoginFragmentBinding
 import com.example.login.viewmodel.LoginViewModel
+import com.example.network.RetrofitUtils
+import com.example.network.api.CodeApi
+import com.example.network.api.FastSignupBody
+import com.example.network.api.LoginResponse
 import com.google.android.material.tabs.TabLayout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class LoginFragment : Fragment() {
+    val LOGIN_SUCCESS = "200"
     lateinit var viewModel:LoginViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,11 +56,89 @@ class LoginFragment : Fragment() {
         viewModel.checkInputEmpty(binding.passwordLogin,binding.passwordTextLogin,"密码",viewModel.loginPassword)
         viewModel.checkInputEmpty(binding.codeLogin,binding.codeTextLogin,"验证码",viewModel.loginCode)
 
-        viewModel.clickCodeButton(binding.getCodeLogin)
+        binding.getCodeLogin.setOnClickListener {
+            when(val phone = viewModel.loginAccount.get()){
+                null -> {
+                    binding.phoneLogin.error="手机号不能为空"
+                    binding.phoneLogin.isErrorEnabled = true
+                }
+                else -> {
+                    if (viewModel.checkPhoneNumber(phone)){
+                        RetrofitUtils.retrofitUtils.getService(CodeApi::class.java).getCode(phone).enqueue(object :Callback<Any?>{
+                            override fun onFailure(call: Call<Any?>, t: Throwable) {}
+                            override fun onResponse(call: Call<Any?>, response: Response<Any?>) {}
+                        })
+                        val duration = (1000*30).toLong()
+                        val interval = (1000*1).toLong()
+                        binding.getCodeLogin.isEnabled = false
+                        object : CountDownTimer(duration,interval){
+                            override fun onFinish() {
+                                binding.getCodeLogin.isEnabled = true
+                                binding.getCodeLogin.text = "获取短信验证码"
+                            }
+                            override fun onTick(millisUntilFinished: Long) {
+                                ((millisUntilFinished/1000).toString() + "秒后可用").also { binding.getCodeLogin.text = it }
+                            }
+                        }.start()
+                    }else{
+                        binding.phoneLogin.error = "手机号格式不正确"
+                        binding.phoneLogin.isErrorEnabled = true
+                    }
+                }
+            }
+
+        }
 
         binding.loginButton.setOnClickListener { view:View ->
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_guideActivity)
-            (activity as AppCompatActivity).finish()
+            when(val phone = viewModel.loginAccount.get()){
+                null -> {
+                    binding.phoneLogin.error="手机号不能为空"
+                    binding.phoneLogin.isErrorEnabled = true
+                }
+                "" -> {
+                    binding.phoneLogin.error="手机号不能为空"
+                    binding.phoneLogin.isErrorEnabled = true
+                }
+                else -> {
+                    when(viewModel.loginCode.get()){
+                        null -> {
+                            binding.codeLogin.error = "验证码不能为空"
+                            binding.codeLogin.isErrorEnabled = true
+                        }
+                        "" ->{
+                            binding.codeLogin.error = "验证码不能为空"
+                            binding.codeLogin.isErrorEnabled = true
+                        }
+                        else -> {
+                            RetrofitUtils.retrofitUtils.getService(CodeApi::class.java)
+                                    .loginByCode(FastSignupBody( viewModel.loginAccount.get()!!,viewModel.loginCode.get()!!)).enqueue(object : Callback<LoginResponse> {
+                                        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                                            Toast.makeText(context,"登录失败,请重试",Toast.LENGTH_SHORT).show()
+                                        }
+
+                                        override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                                            when(val body = response.body()){
+                                                null ->{
+                                                    Toast.makeText(context,"登录失败,请重试",Toast.LENGTH_SHORT).show()
+                                                }
+                                                else -> {
+                                                    when(body.code){
+                                                        LOGIN_SUCCESS -> {
+                                                            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_guideActivity)
+                                                            (activity as AppCompatActivity).finish()
+                                                        }
+                                                        else -> {
+                                                            Toast.makeText(context,body.msg,Toast.LENGTH_SHORT).show()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    })
+                        }
+                    }
+                }
+            }
         }
         return binding.root
     }

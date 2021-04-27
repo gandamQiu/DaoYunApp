@@ -26,7 +26,24 @@ class PhoneInputFragment : Fragment() {
         binding.viewmodel = viewModel
         viewModel.checkInputEmpty(binding.phonePhone,binding.phoneTextPhone,"手机号",viewModel.signupPhone)
         binding.phoneNextButton.setOnClickListener{view:View ->
-            Navigation.findNavController(view).navigate(R.id.action_phoneInputFragment_to_codeFragment)
+            when(val phone = viewModel.signupPhone.get()){
+                null -> {
+                    binding.phonePhone.error="手机号不能为空"
+                    binding.phonePhone.isErrorEnabled = true
+                }
+                "" -> {
+                    binding.phonePhone.error="手机号不能为空"
+                    binding.phonePhone.isErrorEnabled = true
+                }
+                else -> {
+                    if (viewModel.checkPhoneNumber(phone)){
+                        Navigation.findNavController(view).navigate(R.id.action_phoneInputFragment_to_codeFragment)
+                    }else{
+                        binding.phonePhone.error = "手机号格式不正确"
+                        binding.phonePhone.isErrorEnabled = true
+                    }
+                }
+            }
         }
         return binding.root
     }
