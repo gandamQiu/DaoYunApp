@@ -16,5 +16,6 @@ interface CodeApi {
    fun loginByCode(@Body fastSignupBody: FastSignupBody):Call<LoginResponse>
    @POST("fastregister")
    fun fastRegister(@Query("phone")phone: String,@Query("verifycode")code:String):Call<SignupResponse>
-
+   @POST("userlogin")
+   fun loginByPassword(@Body loginBody:LoginBody):Call<LoginResponse>
 }

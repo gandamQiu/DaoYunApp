@@ -14,4 +14,7 @@ dependencies {
     implementation 'androidx.paging:paging-runtime-ktx:3.0.0-alpha07'
     implementation 'androidx.paging:paging-common:3.0.0-alpha07'
     implementation 'androidx.paging:paging-common-ktx:3.0.0-alpha07'
+
+    implementation "com.google.zxing:core:3.3.2"
+    implementation "com.journeyapps:zxing-android-embedded:3.6.0"
 }

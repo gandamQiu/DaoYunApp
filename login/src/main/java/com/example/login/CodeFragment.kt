@@ -22,7 +22,7 @@ import retrofit2.Response
 
 
 class CodeFragment : Fragment() {
-    val SIGNUP_SUCCESS = "101"
+    val SIGNUP_SUCCESS = "200"
     lateinit var viewModel: LoginViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

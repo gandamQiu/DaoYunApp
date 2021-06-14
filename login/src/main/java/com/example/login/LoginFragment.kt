@@ -2,6 +2,7 @@ package com.example.login
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.example.login.viewmodel.LoginViewModel
 import com.example.network.RetrofitUtils
 import com.example.network.api.CodeApi
 import com.example.network.api.FastSignupBody
+import com.example.network.api.LoginBody
 import com.example.network.api.LoginResponse
 import com.google.android.material.tabs.TabLayout
 import retrofit2.Call
@@ -88,7 +90,58 @@ class LoginFragment : Fragment() {
             }
 
         }
+        binding.loginByPasswordButton.setOnClickListener { view:View ->
+            when(val phone = viewModel.loginAccount.get()) {
+                null -> {
+                    binding.phoneLogin.error = "手机号不能为空"
+                    binding.phoneLogin.isErrorEnabled = true
+                }
+                "" -> {
+                    binding.phoneLogin.error = "手机号不能为空"
+                    binding.phoneLogin.isErrorEnabled = true
+                }
+                else -> {
+                    when(viewModel.loginPassword.get()){
+                        null -> {
+                            binding.passwordLogin.error = "密码不能为空"
+                            binding.passwordLogin.isErrorEnabled = true
+                        }
+                        "" ->{
+                            binding.passwordLogin.error = "密码不能为空"
+                            binding.passwordLogin.isErrorEnabled = true
+                        }
+                        else -> {
+                            RetrofitUtils.retrofitUtils.getService(CodeApi::class.java)
+                                .loginByPassword(LoginBody(viewModel.loginAccount.get()!!,viewModel.loginPassword.get()!!)).enqueue(object : Callback<LoginResponse> {
+                                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                                        Toast.makeText(context,"登录失败,请重试",Toast.LENGTH_SHORT).show()
+                                    }
 
+                                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                                        when(val body = response.body()){
+                                            null ->{
+                                                Toast.makeText(context,"登录失败,请重试",Toast.LENGTH_SHORT).show()
+                                            }
+                                            else -> {
+                                                Log.i("return:",body.toString())
+                                                when(body.code){
+                                                    LOGIN_SUCCESS -> {
+                                                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_guideActivity)
+                                                        (activity as AppCompatActivity).finish()
+                                                    }
+                                                    else -> {
+                                                        Toast.makeText(context,body.msg,Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                        }
+                    }
+                }
+            }
+        }
         binding.loginButton.setOnClickListener { view:View ->
             when(val phone = viewModel.loginAccount.get()){
                 null -> {
