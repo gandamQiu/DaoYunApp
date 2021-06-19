@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/classTeacherSignButton"
+        android:title="发布/查看签到" />
+    <item
+        android:id="@+id/classTeacherSettingButton"
+        android:title="班课设置" />
+    <item
+        android:id="@+id/classTeacherViewButton"
+        android:title="进入班课" />
+</menu>
