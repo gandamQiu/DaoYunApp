@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.guide">
-    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 读文件权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 使用特性 -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DaoYun">
-        <activity android:name=".CreateClassActivity"></activity>
+        <activity android:name=".JoinClassInformationActivity"></activity>
+        <activity android:name=".JoinClassActivity" />
+        <activity android:name=".ClassNumberActivity" />
+        <activity android:name=".CreateClassActivity" />
         <activity
             android:name=".GuideActivity"
-            android:label="@string/app_name">
-
-        </activity>
+            android:label="@string/app_name" />
+        <activity android:name="com.huawei.hms.hmsscankit.ScanKitActivity" />
     </application>
 
 </manifest>

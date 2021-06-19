@@ -1,14 +1,16 @@
 package com.example.guide
 
+import android.Manifest
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class GuideActivity : AppCompatActivity() {
-
+    private val CAMERA_REQ_CODE = 1000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guide)
@@ -24,5 +26,15 @@ class GuideActivity : AppCompatActivity() {
         )
         //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        requestCameraPermission()
+    }
+
+    private fun requestCameraPermission() {
+        //CAMERA_REQ_CODE为用户自定义，用于接收权限校验结果
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
+            CAMERA_REQ_CODE
+        )
     }
 }

@@ -2,12 +2,15 @@ apply plugin: 'com.android.application'
 apply from: '../shared.gradle'
 
 android{
-
+    defaultConfig{
+        multiDexEnabled true
+    }
 }
 
 dependencies {
     implementation project(path: ':login')
     implementation project(path: ':guide')
     implementation project(path: ':network')
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
