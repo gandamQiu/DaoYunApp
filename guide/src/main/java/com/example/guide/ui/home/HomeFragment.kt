@@ -13,10 +13,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.guide.CreateClassActivity
 import com.example.guide.JoinClassActivity
+import com.example.guide.LocalTestData
 import com.example.guide.R
 import com.example.guide.adapt.ClassListAdapt
+import com.example.guide.adapt.ClassTeacherListAdapt
+import com.example.guide.data.ClassTeacher
 import com.example.guide.data.MyClass
 import com.example.guide.databinding.FragmentHomeBinding
 import com.google.android.material.tabs.TabLayout
@@ -29,9 +31,9 @@ class HomeFragment : Fragment() {
     private val CAMERA_REQ_CODE = 1000
     private val REQUEST_CODE_SCAN_DEFAULT_MODE = 0X01
     private lateinit var homeViewModel: HomeViewModel
-    lateinit var adapt1:ClassListAdapt
+    lateinit var adapt1: ClassTeacherListAdapt
     lateinit var adapt2: ClassListAdapt
-    private val testData1 = arrayListOf<MyClass>(MyClass("测试班课", "测试"))
+    private val testData1 = LocalTestData.classTeacherList
     private val testData2 = arrayListOf<MyClass>(MyClass("测试班课2", "测试2"))
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +49,7 @@ class HomeFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        adapt1 = ClassListAdapt(testData1, 0)
+        adapt1 = context?.let { ClassTeacherListAdapt(it,testData1) }!!
         adapt2 = ClassListAdapt(testData2, 1)
         binding.classCreate.adapter = adapt1
         binding.classJoin.adapter = adapt2
@@ -62,14 +64,17 @@ class HomeFragment : Fragment() {
         binding.iconButton.setOnClickListener{
             val popup = PopupMenu(context, it)
             popup.inflate(R.menu.add_menu)
-            popup.setOnMenuItemClickListener {
-                when(it.itemId){
+            popup.setOnMenuItemClickListener { it1 ->
+                when(it1.itemId){
                     R.id.createClassButton -> {
+                        /*
                         startActivityForResult(
                             Intent(activity, CreateClassActivity::class.java),
                             666
                         )
-                        //adapt1.addItem(MyClass("test","test"))
+                         */
+                        testData1.add(ClassTeacher("1","2","3","4","5"))
+                        adapt1.refresh(testData1)
                         true
                     }
                     R.id.joinByCodeButton -> {
