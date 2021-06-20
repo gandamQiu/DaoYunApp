@@ -12,14 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.guide.CreateClassActivity
 import com.example.guide.JoinClassActivity
 import com.example.guide.LocalTestData
 import com.example.guide.R
-import com.example.guide.adapt.ClassListAdapt
+import com.example.guide.adapt.ClassStudentListAdapt
 import com.example.guide.adapt.ClassTeacherListAdapt
+import com.example.guide.data.ClassStudent
 import com.example.guide.data.ClassTeacher
-import com.example.guide.data.MyClass
 import com.example.guide.databinding.FragmentHomeBinding
 import com.google.android.material.tabs.TabLayout
 import com.huawei.hms.hmsscankit.ScanKitActivity
@@ -32,9 +33,9 @@ class HomeFragment : Fragment() {
     private val REQUEST_CODE_SCAN_DEFAULT_MODE = 0X01
     private lateinit var homeViewModel: HomeViewModel
     lateinit var adapt1: ClassTeacherListAdapt
-    lateinit var adapt2: ClassListAdapt
+    lateinit var adapt2: ClassStudentListAdapt
     private val testData1 = LocalTestData.classTeacherList
-    private val testData2 = arrayListOf<MyClass>(MyClass("测试班课2", "测试2"))
+    private val testData2 = LocalTestData.classStudentList
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,16 +49,25 @@ class HomeFragment : Fragment() {
 
         (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false)
-
+        testData1.clear()
         adapt1 = context?.let { ClassTeacherListAdapt(it,testData1) }!!
-        adapt2 = ClassListAdapt(testData2, 1)
+        adapt2 = context?.let { ClassStudentListAdapt(it,testData2) }!!
         binding.classCreate.adapter = adapt1
         binding.classJoin.adapter = adapt2
-
+        binding.teacherRefresh.setOnRefreshListener {
+            testData1.add(ClassTeacher("1", "2", "3", "4", "5", "00000001"))
+            adapt1.refresh(testData1)
+            binding.teacherRefresh.isRefreshing = false;
+        }
+        binding.studentRefresh.setOnRefreshListener {
+            testData2.add(ClassStudent("1", "2", "3", "4", "5", "00000001", "test"))
+            adapt2.refresh(testData2)
+            binding.studentRefresh.isRefreshing = false
+        }
         binding.homeTabLayout.addOnTabSelectedListener(
             tabListener(
-                binding.classCreate,
-                binding.classJoin
+                binding.teacherRefresh,
+                binding.studentRefresh
             )
         )
 
@@ -67,19 +77,14 @@ class HomeFragment : Fragment() {
             popup.setOnMenuItemClickListener { it1 ->
                 when(it1.itemId){
                     R.id.createClassButton -> {
-                        /*
                         startActivityForResult(
                             Intent(activity, CreateClassActivity::class.java),
                             666
                         )
-                         */
-                        testData1.add(ClassTeacher("1","2","3","4","5"))
-                        adapt1.refresh(testData1)
                         true
                     }
                     R.id.joinByCodeButton -> {
                         startActivity(Intent(activity,JoinClassActivity::class.java))
-                        adapt2.addItem(MyClass("工程实践","2020-1"))
                         true
                     }
                     R.id.joinByScanButton -> {
@@ -100,7 +105,6 @@ class HomeFragment : Fragment() {
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        //adapt1.addItem(MyClass(requestCode.toString(), resultCode.toString()))
         when (requestCode) {
             REQUEST_CODE_SCAN_DEFAULT_MODE -> {
                 val hmsScan: HmsScan? = data?.getParcelableExtra(ScanUtil.RESULT)
@@ -121,34 +125,19 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-    //创建班课返回
-    /*
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode==2)
-            if (requestCode==666){
-            val value1 = data!!.getStringExtra("name")
-            val value2 = data!!.getStringExtra("description")
-            adapt1.addItem(MyClass(value1?:"NotName",value2?:"NotDescription"))
-        }
-
-    }
-     */
-
     class tabListener(
-        private val recyclerView: RecyclerView,
-        private val recyclerView2: RecyclerView
+        private val list1: SwipeRefreshLayout,
+        private val list2: SwipeRefreshLayout
     ):
         TabLayout.OnTabSelectedListener{
         override fun onTabSelected(tab: TabLayout.Tab?) {
             if (tab!!.position==0){
-                recyclerView.visibility = View.VISIBLE
-                recyclerView2.visibility = View.GONE
+                list1.visibility = View.VISIBLE
+                list2.visibility = View.GONE
             }
             if (tab.position==1){
-                recyclerView2.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
+                list2.visibility = View.VISIBLE
+                list1.visibility = View.GONE
             }
         }
         override fun onTabUnselected(tab: TabLayout.Tab?) {

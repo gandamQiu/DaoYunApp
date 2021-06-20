@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:orientation="vertical">
-
     <TextView
         android:id="@+id/classTeacherCourse"
         android:layout_width="match_parent"
@@ -14,21 +13,23 @@
         android:text="班课"
         android:textSize="24sp"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/classTeacherClassname"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="8dp"
-        android:text="班级" />
-
-    <TextView
-        android:id="@+id/classTeacherDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="8dp"
-        android:text="学期" />
-
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/classTeacherClassname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:text="班级" />
+        <TextView
+            android:id="@+id/classTeacherDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:text="学期" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,11 +49,8 @@
             android:paddingStart="8dp"
             android:text="学院" />
     </LinearLayout>
-
     <View
-        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
-
 </LinearLayout>

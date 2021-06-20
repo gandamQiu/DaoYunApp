@@ -28,12 +28,12 @@ class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTea
         dataSet.addAll(data)
     }
     override fun getItemCount(): Int {
-        return dataSet.size
+        return dataSet.size+1
     }
 
     override fun getItemViewType(position: Int): Int {
         if (dataSet.isEmpty()) return 0
-        if (dataSet.lastIndex==position) return 1
+        if (dataSet.lastIndex+1==position) return 1
         return 2
     }
 

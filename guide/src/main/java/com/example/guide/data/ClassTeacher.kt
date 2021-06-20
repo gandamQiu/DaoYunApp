@@ -5,5 +5,6 @@ data class ClassTeacher(
         val classname:String,//班课
         val course:String,//课程
         val school:String,//学校
-        val college:String//学院
+        val college:String,//学院
+        val number:String//班课号
 )
