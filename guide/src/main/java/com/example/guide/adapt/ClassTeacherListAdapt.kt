@@ -1,6 +1,7 @@
 package com.example.guide.adapt
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.guide.R
+import com.example.guide.SignActivity
 import com.example.guide.data.ClassTeacher
 
 class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTeacher>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -77,6 +79,7 @@ class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTea
                 popup.setOnMenuItemClickListener { it1 ->
                     when (it1.itemId) {
                         R.id.classTeacherSignButton -> {
+                            context.startActivity(Intent(context,SignActivity::class.java))
                             Toast.makeText(context, "签到 " + dataSet[position].course, Toast.LENGTH_SHORT).show()
                             true
                         }
