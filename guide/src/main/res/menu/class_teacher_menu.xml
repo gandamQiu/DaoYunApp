@@ -2,7 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/classTeacherSignButton"
-        android:title="发布/查看签到" />
+        android:title="发布签到" />
+    <item
+        android:id="@+id/classTeacherSignListButton"
+        android:title="查看签到" />
     <item
         android:id="@+id/classTeacherSettingButton"
         android:title="班课设置" />

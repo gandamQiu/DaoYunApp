@@ -2,23 +2,19 @@ package com.example.daoyun
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.example.guide.GuideActivity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlin.system.measureTimeMillis
 
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
-        val time:Long = measureTimeMillis {
-            GlobalScope.launch {
-                Thread.sleep(200)
-                //startActivity(Intent(this@WelcomeActivity,LoginActivity::class.java))
-                startActivity(Intent(this@WelcomeActivity, GuideActivity::class.java))
-                finish()
-            }
-        }
+        Handler().postDelayed({
+            //startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this, GuideActivity::class.java))
+            finish()
+        },3000)
+
     }
 }

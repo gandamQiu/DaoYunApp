@@ -80,7 +80,11 @@ class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTea
                     when (it1.itemId) {
                         R.id.classTeacherSignButton -> {
                             context.startActivity(Intent(context,SignActivity::class.java))
-                            Toast.makeText(context, "签到 " + dataSet[position].course, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "发布签到 " + dataSet[position].course, Toast.LENGTH_SHORT).show()
+                            true
+                        }
+                        R.id.classTeacherSignListButton ->{
+                            Toast.makeText(context, "查看签到 " + dataSet[position].course, Toast.LENGTH_SHORT).show()
                             true
                         }
                         R.id.classTeacherSettingButton -> {

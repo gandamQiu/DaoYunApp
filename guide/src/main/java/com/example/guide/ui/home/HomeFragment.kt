@@ -11,11 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.guide.CreateClassActivity
 import com.example.guide.JoinClassActivity
-import com.example.guide.LocalTestData
 import com.example.guide.R
 import com.example.guide.adapt.ClassStudentListAdapt
 import com.example.guide.adapt.ClassTeacherListAdapt
@@ -31,25 +29,21 @@ import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 class HomeFragment : Fragment() {
     private val CAMERA_REQ_CODE = 1000
     private val REQUEST_CODE_SCAN_DEFAULT_MODE = 0X01
-    private lateinit var homeViewModel: HomeViewModel
     lateinit var adapt1: ClassTeacherListAdapt
     lateinit var adapt2: ClassStudentListAdapt
-    private val testData1 = LocalTestData.classTeacherList
-    private val testData2 = LocalTestData.classStudentList
+    private val testData1 = ArrayList<ClassTeacher>()
+    private val testData2 = ArrayList<ClassStudent>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
         val binding = DataBindingUtil.inflate<FragmentHomeBinding>(
             inflater, R.layout.fragment_home, container, false
         )
 
         (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false)
-        testData1.clear()
         adapt1 = context?.let { ClassTeacherListAdapt(it,testData1) }!!
         adapt2 = context?.let { ClassStudentListAdapt(it,testData2) }!!
         binding.classCreate.adapter = adapt1
