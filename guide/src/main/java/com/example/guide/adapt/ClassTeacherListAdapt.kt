@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.guide.ClassmateActivity
 import com.example.guide.R
@@ -16,7 +15,7 @@ import com.example.guide.SignActivity
 import com.example.guide.SignAllActivity
 import com.example.guide.data.ClassTeacher
 
-class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTeacher>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTeacher>,private val teacherNumber:String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val dataSet = ArrayList<ClassTeacher>()
     class ClassTeacherViewHolder(view: View):RecyclerView.ViewHolder(view){
         val date:TextView = view.findViewById(R.id.classTeacherDate)//学期
@@ -81,8 +80,9 @@ class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTea
                 popup.setOnMenuItemClickListener { it1 ->
                     when (it1.itemId) {
                         R.id.classTeacherSignButton -> {
-                            context.startActivity(Intent(context,SignActivity::class.java))
-                            Toast.makeText(context, "发布签到 " + dataSet[position].course, Toast.LENGTH_SHORT).show()
+                            val intent = Intent(context, SignActivity::class.java)
+                            intent.putExtra("number",dataSet[position].number)
+                            context.startActivity(intent)
                             true
                         }
                         R.id.classTeacherSignListButton ->{

@@ -20,9 +20,14 @@ class SignActivity : AppCompatActivity() {
     var time1:Int = 0
     var time2:Int = 0
 
+    lateinit var number:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign)
+
+        number = this.intent.getStringExtra("number")!!
+        Toast.makeText(this,"number:$number",Toast.LENGTH_SHORT).show()
 
         val button1:Button = findViewById(R.id.signButton)
         val button2:Button = findViewById(R.id.signButton2)

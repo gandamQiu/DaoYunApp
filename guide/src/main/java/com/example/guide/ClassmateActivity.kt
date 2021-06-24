@@ -25,7 +25,7 @@ class ClassmateActivity : AppCompatActivity() {
         number = this.intent.getStringExtra("number")!!
         Toast.makeText(this,"number:$number",Toast.LENGTH_SHORT).show()
 
-        data = arrayListOf()
+        data = ArrayList<Classmate>()
 
         adapt = ClassmateAdapt(data)
         recyclerView = findViewById(R.id.classmateList)

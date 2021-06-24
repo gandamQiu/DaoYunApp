@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DaoYun">
-        <activity android:name=".ClassmateActivity"></activity>
+        <activity android:name=".StudentSignActivity"></activity>
+        <activity android:name=".ClassmateActivity" />
         <activity android:name=".SignAllActivity" />
         <activity android:name=".SignListActivity" />
         <activity android:name=".SignActivity" />

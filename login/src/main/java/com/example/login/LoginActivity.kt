@@ -26,5 +26,7 @@ class LoginActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.loginNavHostFragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         NavigationUI.setupWithNavController(binding.loginToolbar,navController,appBarConfiguration)
+
+        setResult(667)
     }
 }

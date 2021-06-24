@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.example.guide.GuideActivity
+import com.example.login.LoginActivity
 
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,9 +19,17 @@ class WelcomeActivity : AppCompatActivity() {
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("number",number)
             intent.putExtra("role","2")
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent,666)
         },1000)
+    }
 
+    //解决循环嵌套
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==666){
+            startActivityForResult(Intent(this, LoginActivity::class.java),667)
+        }else if (requestCode==667) {
+            finish()
+        }
     }
 }

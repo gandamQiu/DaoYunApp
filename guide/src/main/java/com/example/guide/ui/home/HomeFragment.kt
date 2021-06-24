@@ -52,8 +52,8 @@ class HomeFragment : Fragment() {
         role = (activity as AppCompatActivity).intent.getStringExtra("role")!!
         Toast.makeText(context,"number:$number, role:$role",Toast.LENGTH_SHORT).show()
 
-        adapt1 = context?.let { ClassTeacherListAdapt(it,testData1) }!!
-        adapt2 = context?.let { ClassStudentListAdapt(it,testData2) }!!
+        adapt1 = context?.let { ClassTeacherListAdapt(it,testData1,number) }!!
+        adapt2 = context?.let { ClassStudentListAdapt(it,testData2,number) }!!
         binding.classCreate.adapter = adapt1
         binding.classJoin.adapter = adapt2
         binding.teacherRefresh.setOnRefreshListener {
