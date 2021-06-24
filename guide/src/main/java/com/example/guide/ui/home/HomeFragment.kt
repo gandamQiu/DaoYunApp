@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.guide.CreateClassActivity
 import com.example.guide.JoinClassActivity
+import com.example.guide.JoinClassInformationActivity
 import com.example.guide.R
 import com.example.guide.adapt.ClassStudentListAdapt
 import com.example.guide.adapt.ClassTeacherListAdapt
@@ -79,14 +80,13 @@ class HomeFragment : Fragment() {
             popup.setOnMenuItemClickListener { it1 ->
                 when(it1.itemId){
                     R.id.createClassButton -> {
-                        startActivityForResult(
-                            Intent(activity, CreateClassActivity::class.java),
-                            666
-                        )
+                        val intent = Intent(activity, CreateClassActivity::class.java)
+                        intent.putExtra("number",number)
+                        startActivity(intent)
                         true
                     }
                     R.id.joinByCodeButton -> {
-                        startActivity(Intent(activity,JoinClassActivity::class.java))
+                        startActivityForResult(Intent(activity,JoinClassActivity::class.java),999)
                         true
                     }
                     R.id.joinByScanButton -> {
@@ -111,21 +111,26 @@ class HomeFragment : Fragment() {
             REQUEST_CODE_SCAN_DEFAULT_MODE -> {
                 val hmsScan: HmsScan? = data?.getParcelableExtra(ScanUtil.RESULT)
                 if (!TextUtils.isEmpty(hmsScan?.getOriginalValue())) {
-                    when(hmsScan?.getOriginalValue().toString()){
-                        "86459875" -> Toast.makeText(
-                            activity,
-                            "班课不允许加入",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        else -> Toast.makeText(
-                            activity,
-                            "班课已结束",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    joinClass(hmsScan?.getOriginalValue().toString())
                 }
             }
+            999 -> {
+                if (resultCode==999)
+                    joinClass(data?.getStringExtra("classNumber").toString())
+            }
+            else ->{}
         }
+    }
+    private fun joinClass(string: String){
+        Toast.makeText(
+            activity,
+            string,
+            Toast.LENGTH_SHORT
+        ).show()
+        val temp = Intent(context, JoinClassInformationActivity::class.java)
+        temp.putExtra("number",number)
+        temp.putExtra("classNumber",string)
+        startActivity(temp)
     }
     class tabListener(
         private val list1: SwipeRefreshLayout,

@@ -6,12 +6,31 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".ClassNumberActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/classNumberReturnButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/abc_vector_test" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建班课"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="班课号" />
+        android:text="班课号"
+        android:layout_marginTop="8dp"/>
 
     <TextView
         android:id="@+id/newClassNumber"
@@ -26,7 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="二维码" />
+        android:text="二维码(请使用手机截屏保存)"
+        android:layout_marginTop="8dp"/>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

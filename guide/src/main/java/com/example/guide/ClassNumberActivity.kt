@@ -17,9 +17,13 @@ class ClassNumberActivity : AppCompatActivity() {
         setContentView(R.layout.activity_class_number)
         val number = findViewById<TextView>(R.id.newClassNumber)
         val img = findViewById<ImageView>(R.id.newClassBarcode)
-        val code = "86459875"
+        var imageButton = findViewById<ImageView>(R.id.classNumberReturnButton)
+        val code = this.intent.getStringExtra("number")!!
         number.text = code
         img.setImageBitmap(createQRImage(code,500,500))
+        imageButton.setOnClickListener {
+            finish()
+        }
     }
     private fun createQRImage(code:String, widthPix: Int, heightPix: Int): Bitmap {
         val bitMatrix: BitMatrix = QRCodeWriter().encode(code,BarcodeFormat.QR_CODE,widthPix,heightPix)
