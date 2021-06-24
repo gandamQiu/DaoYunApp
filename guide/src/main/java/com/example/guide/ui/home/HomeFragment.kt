@@ -33,6 +33,9 @@ class HomeFragment : Fragment() {
     lateinit var adapt2: ClassStudentListAdapt
     private val testData1 = ArrayList<ClassTeacher>()
     private val testData2 = ArrayList<ClassStudent>()
+
+    lateinit var number:String
+    lateinit var role:String
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,6 +47,11 @@ class HomeFragment : Fragment() {
 
         (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false)
+
+        number = (activity as AppCompatActivity).intent.getStringExtra("number")!!
+        role = (activity as AppCompatActivity).intent.getStringExtra("role")!!
+        Toast.makeText(context,"number:$number, role:$role",Toast.LENGTH_SHORT).show()
+
         adapt1 = context?.let { ClassTeacherListAdapt(it,testData1) }!!
         adapt2 = context?.let { ClassStudentListAdapt(it,testData2) }!!
         binding.classCreate.adapter = adapt1
