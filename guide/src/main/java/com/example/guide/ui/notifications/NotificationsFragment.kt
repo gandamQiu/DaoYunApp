@@ -12,7 +12,6 @@ import com.example.guide.R
 
 class NotificationsFragment : Fragment() {
     lateinit var number:String
-    lateinit var role:String
 
     lateinit var button: Button
     lateinit var name:TextView
@@ -25,13 +24,11 @@ class NotificationsFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_notifications, container, false)
         number = (activity as AppCompatActivity).intent.getStringExtra("number")!!
-        role = (activity as AppCompatActivity).intent.getStringExtra("role")!!
-
-    button = root.findViewById(R.id.mineButton)
+        button = root.findViewById(R.id.mineButton)
         name = root.findViewById(R.id.mineName)
         info = root.findViewById(R.id.mineInfo)
         password = root.findViewById(R.id.minePassword)
-
+        name.text = (activity as AppCompatActivity).intent.getStringExtra("name")!!
         button.setOnClickListener {
             (activity as AppCompatActivity).setResult(666)
             (activity as AppCompatActivity).finish()

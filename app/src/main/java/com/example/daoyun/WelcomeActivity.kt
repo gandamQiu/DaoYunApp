@@ -2,6 +2,7 @@ package com.example.daoyun
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
@@ -9,17 +10,25 @@ import com.example.guide.GuideActivity
 import com.example.login.LoginActivity
 
 class WelcomeActivity : AppCompatActivity() {
+    lateinit var sp:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
         Handler().postDelayed({
-            //startActivity(Intent(this,LoginActivity::class.java))
-            val sp = this.getSharedPreferences("daoyun", Context.MODE_PRIVATE)
-            val number = sp.getString("number","13388888888")
-            val intent = Intent(this, GuideActivity::class.java)
-            intent.putExtra("number",number)
-            intent.putExtra("role","2")
-            startActivityForResult(intent,666)
+            //
+            sp = this.getSharedPreferences("daoyun", Context.MODE_PRIVATE)
+            val number = sp.getString("number","none")
+            val role = sp.getString("role","none")
+            val name = sp.getString("name","none")
+            if(number=="none"){
+                startActivityForResult(Intent(this,LoginActivity::class.java),777)
+            }else{
+                val intent = Intent(this, GuideActivity::class.java)
+                intent.putExtra("number",number)
+                intent.putExtra("role",role)
+                intent.putExtra("name",name)
+                startActivityForResult(intent,666)
+            }
         },1000)
     }
 
@@ -27,9 +36,30 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==666){
-            startActivityForResult(Intent(this, LoginActivity::class.java),667)
-        }else if (requestCode==667) {
-            finish()
+            if (resultCode==666){
+                sp.edit().putString("number","none").apply()
+                startActivityForResult(Intent(this, LoginActivity::class.java),777)
+            }else{
+                finish()
+            }
+        }else if (requestCode==777) {
+            if (resultCode==777){
+                val number = data!!.getStringExtra("number")!!
+                val role = data.getStringExtra("role")!!
+                val name = data.getStringExtra("name")!!
+                val edit = sp.edit()
+                edit.putString("number",number)
+                edit.putString("role",role)
+                edit.putString("name",name)
+                edit.apply()
+                val intent = Intent(this, GuideActivity::class.java)
+                intent.putExtra("number",number)
+                intent.putExtra("role",role)
+                intent.putExtra("name",name)
+                startActivityForResult(intent,666)
+            }else{
+                finish()
+            }
         }
     }
 }

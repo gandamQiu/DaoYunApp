@@ -27,7 +27,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -40,19 +39,19 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="班课" />
+        android:text="班课"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/classJoinClass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        />
 
     <TextView
-        android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="学期" />
@@ -64,16 +63,17 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="教师" />
+        android:text="教师"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/teacherJoinClass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/buttonJoinClassInformation"

@@ -1,6 +1,7 @@
 package com.example.guide
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.guide.data.Classmate
+import com.example.network.RetrofitUtils
+import com.example.network.api.ClassListApi
+import com.example.network.api.ClassmateResponse
+import retrofit2.Call
+import retrofit2.Response
 
 class ClassmateActivity : AppCompatActivity() {
     lateinit var button:ImageButton
@@ -37,11 +43,29 @@ class ClassmateActivity : AppCompatActivity() {
             adapt.refresh(data)
             refreshLayout.isRefreshing = false
         }
-
+        //getClassmateList()
         button = findViewById(R.id.classmateReturnButton)
         button.setOnClickListener {
             finish()
         }
+    }
+    fun getClassmateList(){
+        RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).getClassmateList(number)
+                .enqueue(object :retrofit2.Callback<ClassmateResponse?>{
+                    override fun onFailure(call: Call<ClassmateResponse?>, t: Throwable) {
+                        Toast.makeText(this@ClassmateActivity, "加载失败,请重试", Toast.LENGTH_SHORT).show()
+                    }
+                    override fun onResponse(call: Call<ClassmateResponse?>, response: Response<ClassmateResponse?>) {
+                        when(val body = response.body()){
+                            null -> {
+                                Toast.makeText(this@ClassmateActivity, "加载失败,请重试", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                Log.i("return:", body.toString())
+                            }
+                        }
+                    }
+                })
     }
     class ClassmateAdapt(data:ArrayList<Classmate>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         private val dataSet = ArrayList<Classmate>()
@@ -72,4 +96,5 @@ class ClassmateActivity : AppCompatActivity() {
             notifyDataSetChanged()
         }
     }
+
 }

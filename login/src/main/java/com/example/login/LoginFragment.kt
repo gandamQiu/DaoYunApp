@@ -1,5 +1,6 @@
 package com.example.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -126,7 +127,17 @@ class LoginFragment : Fragment() {
                                                 Log.i("return:",body.toString())
                                                 when(body.code){
                                                     LOGIN_SUCCESS -> {
-                                                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_guideActivity)
+                                                        val intent = Intent()
+                                                        val name = body.data.user.name.toString()
+                                                        val number =  body.data.user.number.toString()
+                                                        val id = body.data.user.id.toString()
+                                                        val role = body.data.user.role
+                                                        intent.putExtra("name",name)
+                                                        intent.putExtra("role",role.toString())
+                                                        if (role==2) intent.putExtra("number",id)
+                                                        else intent.putExtra("number",number)
+                                                        Toast.makeText(context,"name:$name,number:$number,id:$id,role:$role",Toast.LENGTH_SHORT).show()
+                                                        (activity as AppCompatActivity).setResult(777,intent)
                                                         (activity as AppCompatActivity).finish()
                                                     }
                                                     else -> {
@@ -177,7 +188,17 @@ class LoginFragment : Fragment() {
                                                 else -> {
                                                     when(body.code){
                                                         LOGIN_SUCCESS -> {
-                                                            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_guideActivity)
+                                                            val intent = Intent()
+                                                            val name = body.data.user.name.toString()
+                                                            val number =  body.data.user.number.toString()
+                                                            val id = body.data.user.id.toString()
+                                                            val role = body.data.user.role
+                                                            intent.putExtra("name",name)
+                                                            intent.putExtra("role",role.toString())
+                                                            if (role==2) intent.putExtra("number",id)
+                                                            else intent.putExtra("number",number)
+                                                            Toast.makeText(context,"name:$name,number:$number,id:$id,role:$role",Toast.LENGTH_SHORT).show()
+                                                            (activity as AppCompatActivity).setResult(777,intent)
                                                             (activity as AppCompatActivity).finish()
                                                         }
                                                         else -> {

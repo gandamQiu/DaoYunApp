@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit
 
 
 class RetrofitUtils private constructor() {
+    private val SUCCESS = "200"
     private val retrofit:Retrofit
     init {
         val gson = Gson().newBuilder()
@@ -34,7 +35,7 @@ class RetrofitUtils private constructor() {
         val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
-                //.addInterceptor(initLogInterceptor())
+                .addInterceptor(initLogInterceptor())
                 .build()
         return okHttpClient
     }
@@ -56,4 +57,6 @@ class RetrofitUtils private constructor() {
 
         return retrofit.create(service)
     }
+
+    fun getSuccess():String = SUCCESS
 }

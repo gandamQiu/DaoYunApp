@@ -21,11 +21,17 @@ import com.example.guide.adapt.ClassTeacherListAdapt
 import com.example.guide.data.ClassStudent
 import com.example.guide.data.ClassTeacher
 import com.example.guide.databinding.FragmentHomeBinding
+import com.example.network.RetrofitUtils
+import com.example.network.api.ClassListApi
+import com.example.network.api.ClassListResponse
 import com.google.android.material.tabs.TabLayout
 import com.huawei.hms.hmsscankit.ScanKitActivity
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
     private val CAMERA_REQ_CODE = 1000
@@ -53,14 +59,15 @@ class HomeFragment : Fragment() {
         role = (activity as AppCompatActivity).intent.getStringExtra("role")!!
         Toast.makeText(context,"number:$number, role:$role",Toast.LENGTH_SHORT).show()
 
-        adapt1 = context?.let { ClassTeacherListAdapt(it,testData1,number) }!!
-        adapt2 = context?.let { ClassStudentListAdapt(it,testData2,number) }!!
-        binding.classCreate.adapter = adapt1
-        binding.classJoin.adapter = adapt2
+            adapt1 = context?.let { ClassTeacherListAdapt(it,testData1,number) }!!
+            adapt2 = context?.let { ClassStudentListAdapt(it,testData2,number) }!!
+            binding.classCreate.adapter = adapt1
+            binding.classJoin.adapter = adapt2
+        getListTeacher(adapt1)
         binding.teacherRefresh.setOnRefreshListener {
-            testData1.add(ClassTeacher("1", "2", "3", "4", "5", "00000001"))
-            adapt1.refresh(testData1)
-            binding.teacherRefresh.isRefreshing = false;
+            getListTeacher(adapt1).let {
+                binding.teacherRefresh.isRefreshing = false;
+            }
         }
         binding.studentRefresh.setOnRefreshListener {
             testData2.add(ClassStudent("1", "2", "3", "4", "5", "00000001", "test"))
@@ -80,22 +87,34 @@ class HomeFragment : Fragment() {
             popup.setOnMenuItemClickListener { it1 ->
                 when(it1.itemId){
                     R.id.createClassButton -> {
-                        val intent = Intent(activity, CreateClassActivity::class.java)
-                        intent.putExtra("number",number)
-                        startActivity(intent)
+                        if (role=="3"){
+                            Toast.makeText(context,"学生只能加入班课",Toast.LENGTH_SHORT).show()
+                        }else{
+                            val intent = Intent(activity, CreateClassActivity::class.java)
+                            intent.putExtra("number",number)
+                            startActivity(intent)
+                        }
                         true
                     }
                     R.id.joinByCodeButton -> {
-                        startActivityForResult(Intent(activity,JoinClassActivity::class.java),999)
+                        if (role=="2"){
+                            Toast.makeText(context,"教师只能创建班课",Toast.LENGTH_SHORT).show()
+                        }else{
+                            startActivityForResult(Intent(activity, JoinClassActivity::class.java),999)
+                        }
                         true
                     }
                     R.id.joinByScanButton -> {
-                        val options =
-                            HmsScanAnalyzerOptions.Creator()
-                                .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE).create()
-                        val scanIntent = Intent(activity, ScanKitActivity::class.java)
-                        scanIntent.putExtra("ScanFormatValue",options.mode)
-                        startActivityForResult(scanIntent,REQUEST_CODE_SCAN_DEFAULT_MODE)
+                        if (role=="2"){
+                            Toast.makeText(context,"教师只能创建班课",Toast.LENGTH_SHORT).show()
+                        }else{
+                            val options =
+                                    HmsScanAnalyzerOptions.Creator()
+                                            .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE).create()
+                            val scanIntent = Intent(activity, ScanKitActivity::class.java)
+                            scanIntent.putExtra("ScanFormatValue",options.mode)
+                            startActivityForResult(scanIntent,REQUEST_CODE_SCAN_DEFAULT_MODE)
+                        }
                         true
                     }
                     else -> false
@@ -103,6 +122,7 @@ class HomeFragment : Fragment() {
             }
             popup.show()
         }
+
         return binding.root
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -131,6 +151,37 @@ class HomeFragment : Fragment() {
         temp.putExtra("number",number)
         temp.putExtra("classNumber",string)
         startActivity(temp)
+    }
+    private fun getListTeacher(adapt: ClassTeacherListAdapt){
+        if (role=="2")
+        RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).getClassListTeacher(number)
+                .enqueue(object :Callback<ClassListResponse?>{
+                    override fun onFailure(call: Call<ClassListResponse?>, t: Throwable) {
+                        Toast.makeText(context,"",Toast.LENGTH_SHORT).show()
+                    }
+                    override fun onResponse(call: Call<ClassListResponse?>, response: Response<ClassListResponse?>) {
+                        when(val body = response.body()) {
+                            null -> {
+                                Toast.makeText(context, "加载失败,请重试", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                //Log.i("return:", body.toString())
+                                testData1.clear()
+                                when(val t = body.data){
+                                    null ->{
+
+                                    }else -> {
+                                    for(i in t){
+                                        //Log.i("classnumber",i.classnumber.toString())
+                                        testData1.add(ClassTeacher(i.classsemester.toString(),"",i.classname.toString(),i.school.toString(),i.college.toString(),i.classnumber.toString()))
+                                    }
+                                    }
+                                }
+                                adapt.refresh(testData1)
+                            }
+                        }
+                    }
+                })
     }
     class tabListener(
         private val list1: SwipeRefreshLayout,

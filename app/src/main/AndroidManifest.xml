@@ -31,7 +31,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DaoYun"
-        tools:replace="android:icon,theme,label">
+        tools:replace="android:icon,theme,label"
+        android:usesCleartextTraffic="true">
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -9,223 +9,98 @@
             name="viewmodel"
             type="com.example.login.viewmodel.LoginViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/userNameLabel"
-            style="@style/label"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userDividerLine1" />
-
-        <EditText
-            android:id="@+id/userNameInput"
-            style="@style/inputStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:hint="@string/nameHint"
-            android:inputType="textPersonName"
-            app:layout_constraintBaseline_toBaselineOf="@+id/userNameLabel"
-            app:layout_constraintStart_toEndOf="@+id/userNameLabel" />
-
-        <TextView
-            android:id="@+id/userCollegeLabel"
-            style="@style/label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/college"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/chooseCollegeButton" />
-
-        <TextView
-            android:id="@+id/userDepartmentLabel"
-            style="@style/label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/department"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/chooseDepartmentButton" />
-
-        <TextView
-            android:id="@+id/userTypeLabel"
-            style="@style/label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/type"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/radioGroup" />
-
-        <TextView
-            android:id="@+id/userCollege"
-            style="@style/inputStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:hint="@string/chooseCollegeHint"
-            app:layout_constraintBaseline_toBaselineOf="@+id/userCollegeLabel"
-            app:layout_constraintStart_toEndOf="@+id/userCollegeLabel" />
-
-        <TextView
-            android:id="@+id/userDepartment"
-            style="@style/inputStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:hint="@string/chooseDepartmentHint"
-            app:layout_constraintBaseline_toBaselineOf="@+id/userDepartmentLabel"
-            app:layout_constraintStart_toEndOf="@+id/userDepartmentLabel" />
-
-        <ImageButton
-            android:id="@+id/chooseCollegeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userDividerLine3"
-            app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
-
-        <ImageButton
-            android:id="@+id/chooseDepartmentButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userDividerLine5"
-            app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@+id/userTypeLabel"
-            app:layout_constraintTop_toBottomOf="@+id/userDividerLine7">
-
-            <RadioButton
-                android:id="@+id/userStudentButton"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/student" />
-
-            <RadioButton
-                android:id="@+id/userTeacherButton"
-                android:layout_width="match_parent"
+                android:layout_marginStart="8dp"
+                android:text="@string/name"
+                />
+            <EditText
+                android:id="@+id/userNameInput"
+                style="@style/inputStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/teacher" />
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="@string/nameHint"
+                android:inputType="textPersonName"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="学号"
+                />
+            <EditText
+                android:id="@+id/userNumberInput"
+                style="@style/inputStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="请输入您的学号/工号"
+                android:inputType="numberSigned"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/type"
+                />
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="horizontal"
+                >
 
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/userStudentButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/student"
+                    android:checked="true"/>
 
-        <ImageView
-            android:id="@+id/userDividerLine1"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="128dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <RadioButton
+                    android:id="@+id/userTeacherButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/teacher" />
 
-        <ImageView
-            android:id="@+id/userDividerLine2"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userNameInput" />
-
-        <ImageView
-            android:id="@+id/userDividerLine3"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userDividerLine2" />
-
-        <ImageView
-            android:id="@+id/userDividerLine4"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chooseCollegeButton" />
-
-        <ImageView
-            android:id="@+id/userDividerLine5"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userDividerLine4" />
-
-        <ImageView
-            android:id="@+id/userDividerLine6"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chooseDepartmentButton" />
-
-        <ImageView
-            android:id="@+id/userDividerLine7"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userDividerLine6" />
-
-        <ImageView
-            android:id="@+id/userDividerLine8"
-            style="@style/dividerLine"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            </RadioGroup>
+        </LinearLayout>
 
         <Button
             android:id="@+id/userNextButton"
             style="@style/buttonFont"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="@string/nextStep"
             app:backgroundTint="@android:color/holo_blue_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userDividerLine8" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            />
+    </LinearLayout>
 </layout>
