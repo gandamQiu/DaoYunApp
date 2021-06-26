@@ -57,22 +57,23 @@ class HomeFragment : Fragment() {
 
         number = (activity as AppCompatActivity).intent.getStringExtra("number")!!
         role = (activity as AppCompatActivity).intent.getStringExtra("role")!!
-        Toast.makeText(context,"number:$number, role:$role",Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context,"number:$number, role:$role",Toast.LENGTH_SHORT).show()
 
             adapt1 = context?.let { ClassTeacherListAdapt(it,testData1,number) }!!
             adapt2 = context?.let { ClassStudentListAdapt(it,testData2,number) }!!
             binding.classCreate.adapter = adapt1
             binding.classJoin.adapter = adapt2
-        getListTeacher(adapt1)
+        if (role=="2")  getListTeacher(adapt1)
+        else if(role=="3") getListStudent(adapt2)
         binding.teacherRefresh.setOnRefreshListener {
             getListTeacher(adapt1).let {
                 binding.teacherRefresh.isRefreshing = false;
             }
         }
         binding.studentRefresh.setOnRefreshListener {
-            testData2.add(ClassStudent("1", "2", "3", "4", "5", "00000001", "test"))
-            adapt2.refresh(testData2)
-            binding.studentRefresh.isRefreshing = false
+            getListStudent(adapt2).let {
+                binding.studentRefresh.isRefreshing = false
+            }
         }
         binding.homeTabLayout.addOnTabSelectedListener(
             tabListener(
@@ -142,11 +143,6 @@ class HomeFragment : Fragment() {
         }
     }
     private fun joinClass(string: String){
-        Toast.makeText(
-            activity,
-            string,
-            Toast.LENGTH_SHORT
-        ).show()
         val temp = Intent(context, JoinClassInformationActivity::class.java)
         temp.putExtra("number",number)
         temp.putExtra("classNumber",string)
@@ -169,7 +165,7 @@ class HomeFragment : Fragment() {
                                 testData1.clear()
                                 when(val t = body.data){
                                     null ->{
-
+                                        Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show()
                                     }else -> {
                                     for(i in t){
                                         //Log.i("classnumber",i.classnumber.toString())
@@ -182,6 +178,37 @@ class HomeFragment : Fragment() {
                         }
                     }
                 })
+    }
+    private fun getListStudent(adapt: ClassStudentListAdapt){
+        if(role=="3")
+            RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).getClassListStudent(number)
+                    .enqueue(object :Callback<ClassListResponse?>{
+                        override fun onFailure(call: Call<ClassListResponse?>, t: Throwable) {
+                            Toast.makeText(context,"",Toast.LENGTH_SHORT).show()
+                        }
+                        override fun onResponse(call: Call<ClassListResponse?>, response: Response<ClassListResponse?>) {
+                            when(val body = response.body()) {
+                                null -> {
+                                    Toast.makeText(context, "加载失败,请重试", Toast.LENGTH_SHORT).show()
+                                }
+                                else -> {
+                                    //Log.i("return:", body.toString())
+                                    testData2.clear()
+                                    when(val t = body.data){
+                                        null ->{
+                                            Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show()
+                                        }else -> {
+                                        for(i in t){
+                                            //Log.i("classnumber",i.classnumber.toString())
+                                            testData2.add(ClassStudent(i.classsemester.toString(),"",i.classname.toString(),i.school.toString(),i.college.toString(),i.classnumber.toString(),teacher=""))
+                                        }
+                                    }
+                                    }
+                                    adapt.refresh(testData2)
+                                }
+                            }
+                        }
+                    })
     }
     class tabListener(
         private val list1: SwipeRefreshLayout,

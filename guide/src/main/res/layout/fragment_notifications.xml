@@ -26,12 +26,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="修改个人信息"
+        android:text="检查更新"
         android:textSize="24sp"
         android:clickable="true"
-        android:id="@+id/mineInfo"/>
+        android:id="@+id/mineCheckUpdate"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -45,10 +45,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="修改密码"
+        android:text="关于我们"
         android:textSize="24sp"
         android:clickable="true"
-        android:id="@+id/minePassword"/>
+        android:id="@+id/mineAbout"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -60,6 +60,6 @@
         android:id="@+id/mineButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:text="退出登录" />
 </LinearLayout>

@@ -20,9 +20,15 @@ class WelcomeActivity : AppCompatActivity() {
             val number = sp.getString("number","none")
             val role = sp.getString("role","none")
             val name = sp.getString("name","none")
-            if(number=="none"){
+            val id = sp.getString("id","none")
+            if(number=="none"||id=="none"){
                 startActivityForResult(Intent(this,LoginActivity::class.java),777)
-            }else{
+            }else if (number=="0"||number=="null"){
+                val intent = Intent(this, UserinfoActivity::class.java)
+                intent.putExtra("id",id)
+                startActivityForResult(intent,888)
+            }
+            else{
                 val intent = Intent(this, GuideActivity::class.java)
                 intent.putExtra("number",number)
                 intent.putExtra("role",role)
@@ -47,18 +53,43 @@ class WelcomeActivity : AppCompatActivity() {
                 val number = data!!.getStringExtra("number")!!
                 val role = data.getStringExtra("role")!!
                 val name = data.getStringExtra("name")!!
+                val id = data.getStringExtra("id")
                 val edit = sp.edit()
                 edit.putString("number",number)
                 edit.putString("role",role)
                 edit.putString("name",name)
+                edit.putString("id",id)
                 edit.apply()
+                if (number=="0"||number=="null"){
+                    val intent = Intent(this, UserinfoActivity::class.java)
+                    intent.putExtra("id",id)
+                    startActivityForResult(intent,888)
+                }else{
+                    val intent = Intent(this, GuideActivity::class.java)
+                    intent.putExtra("number",number)
+                    intent.putExtra("role",role)
+                    intent.putExtra("name",name)
+                    startActivityForResult(intent,666)
+                }
+            }else{
+                finish()
+            }
+        }else if (requestCode==888){
+            if (resultCode==888){
+                val number = data!!.getStringExtra("number")!!
+                val name = data.getStringExtra("name")!!
+                val edit = sp.edit()
+                edit.putString("number",number)
+                edit.putString("name",name)
+                edit.apply()
+                val role = sp.getString("role","3")
                 val intent = Intent(this, GuideActivity::class.java)
                 intent.putExtra("number",number)
                 intent.putExtra("role",role)
                 intent.putExtra("name",name)
                 startActivityForResult(intent,666)
             }else{
-                finish()
+                startActivityForResult(Intent(this, LoginActivity::class.java),777)
             }
         }
     }

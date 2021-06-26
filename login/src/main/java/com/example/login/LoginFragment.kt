@@ -18,7 +18,6 @@ import com.example.login.databinding.LoginFragmentBinding
 import com.example.login.viewmodel.LoginViewModel
 import com.example.network.RetrofitUtils
 import com.example.network.api.CodeApi
-import com.example.network.api.FastSignupBody
 import com.example.network.api.LoginBody
 import com.example.network.api.LoginResponse
 import com.google.android.material.tabs.TabLayout
@@ -134,9 +133,10 @@ class LoginFragment : Fragment() {
                                                         val role = body.data.user.role
                                                         intent.putExtra("name",name)
                                                         intent.putExtra("role",role.toString())
+                                                        intent.putExtra("id",id)
                                                         if (role==2) intent.putExtra("number",id)
                                                         else intent.putExtra("number",number)
-                                                        Toast.makeText(context,"name:$name,number:$number,id:$id,role:$role",Toast.LENGTH_SHORT).show()
+                                                        //Toast.makeText(context,"name:$name,number:$number,id:$id,role:$role",Toast.LENGTH_SHORT).show()
                                                         (activity as AppCompatActivity).setResult(777,intent)
                                                         (activity as AppCompatActivity).finish()
                                                     }
@@ -175,7 +175,7 @@ class LoginFragment : Fragment() {
                         }
                         else -> {
                             RetrofitUtils.retrofitUtils.getService(CodeApi::class.java)
-                                    .loginByCode(FastSignupBody( viewModel.loginAccount.get()!!,viewModel.loginCode.get()!!)).enqueue(object : Callback<LoginResponse> {
+                                    .loginByCode( viewModel.loginAccount.get()!!,viewModel.loginCode.get()!!).enqueue(object : Callback<LoginResponse> {
                                         override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                                             Toast.makeText(context,"登录失败,请重试",Toast.LENGTH_SHORT).show()
                                         }
@@ -188,6 +188,7 @@ class LoginFragment : Fragment() {
                                                 else -> {
                                                     when(body.code){
                                                         LOGIN_SUCCESS -> {
+
                                                             val intent = Intent()
                                                             val name = body.data.user.name.toString()
                                                             val number =  body.data.user.number.toString()
@@ -195,11 +196,14 @@ class LoginFragment : Fragment() {
                                                             val role = body.data.user.role
                                                             intent.putExtra("name",name)
                                                             intent.putExtra("role",role.toString())
+                                                            intent.putExtra("id",id)
                                                             if (role==2) intent.putExtra("number",id)
                                                             else intent.putExtra("number",number)
-                                                            Toast.makeText(context,"name:$name,number:$number,id:$id,role:$role",Toast.LENGTH_SHORT).show()
+                                                            //Toast.makeText(context,"name:$name,number:$number,id:$id,role:$role",Toast.LENGTH_SHORT).show()
                                                             (activity as AppCompatActivity).setResult(777,intent)
                                                             (activity as AppCompatActivity).finish()
+
+                                                            Log.i("登录返回",body.data.toString())
                                                         }
                                                         else -> {
                                                             Toast.makeText(context,body.msg,Toast.LENGTH_SHORT).show()

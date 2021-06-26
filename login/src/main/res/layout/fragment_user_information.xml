@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/type"
+                android:text="性别"
                 />
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -79,14 +79,14 @@
                     android:id="@+id/userStudentButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/student"
+                    android:text="男"
                     android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/userTeacherButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/teacher" />
+                    android:text="女" />
 
             </RadioGroup>
         </LinearLayout>

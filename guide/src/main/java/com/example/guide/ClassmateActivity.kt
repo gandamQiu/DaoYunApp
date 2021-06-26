@@ -1,7 +1,6 @@
 package com.example.guide
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,17 +38,18 @@ class ClassmateActivity : AppCompatActivity() {
 
         refreshLayout = findViewById(R.id.classmateRefresh)
         refreshLayout.setOnRefreshListener {
-            data.add(Classmate("test","100"))
-            adapt.refresh(data)
-            refreshLayout.isRefreshing = false
+            getClassmateList(adapt).let {
+                refreshLayout.isRefreshing = false
+            }
         }
         //getClassmateList()
         button = findViewById(R.id.classmateReturnButton)
         button.setOnClickListener {
             finish()
         }
+        getClassmateList(adapt)
     }
-    fun getClassmateList(){
+    fun getClassmateList(adapt: ClassmateAdapt){
         RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).getClassmateList(number)
                 .enqueue(object :retrofit2.Callback<ClassmateResponse?>{
                     override fun onFailure(call: Call<ClassmateResponse?>, t: Throwable) {
@@ -61,7 +61,20 @@ class ClassmateActivity : AppCompatActivity() {
                                 Toast.makeText(this@ClassmateActivity, "加载失败,请重试", Toast.LENGTH_SHORT).show()
                             }
                             else -> {
-                                Log.i("return:", body.toString())
+                                if (body.code == RetrofitUtils.retrofitUtils.getSuccess()){
+                                    data.clear()
+                                    when(val t = body.data){
+                                        null ->{
+                                            Toast.makeText(this@ClassmateActivity, body.msg, Toast.LENGTH_SHORT).show()
+                                        }else -> {
+                                        for(i in t){
+                                            //Log.i("classnumber",i.classnumber.toString())
+                                            data.add(Classmate(i.name,"学号${i.number}"))
+                                            }
+                                        }
+                                    }
+                                    adapt.refresh(data)
+                                }
                             }
                         }
                     }

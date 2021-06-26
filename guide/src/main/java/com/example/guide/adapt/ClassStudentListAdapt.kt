@@ -8,11 +8,18 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.guide.ClassmateActivity
 import com.example.guide.R
 import com.example.guide.StudentSignActivity
 import com.example.guide.data.ClassStudent
+import com.example.network.RetrofitUtils
+import com.example.network.api.ClassAndStudentNumberBody
+import com.example.network.api.ClassListApi
+import com.example.network.api.NoDataResponse
+import retrofit2.Call
+import retrofit2.Response
 
 class ClassStudentListAdapt(private val context: Context, data:ArrayList<ClassStudent>,private val studentNumber:String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val dataSet = ArrayList<ClassStudent>()
@@ -88,8 +95,27 @@ class ClassStudentListAdapt(private val context: Context, data:ArrayList<ClassSt
                             true
                         }
                         R.id.classStudentExitButton -> {
-                            dataSet.removeAt(position)
-                            notifyDataSetChanged()
+                            RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).exitClass(ClassAndStudentNumberBody(studentNumber,dataSet[position].number))
+                                    .enqueue(object :retrofit2.Callback<NoDataResponse?>{
+                                        override fun onFailure(call: Call<NoDataResponse?>, t: Throwable) {
+                                            Toast.makeText(context,"操作失败，请重试",Toast.LENGTH_SHORT).show()
+                                        }
+
+                                        override fun onResponse(call: Call<NoDataResponse?>, response: Response<NoDataResponse?>) {
+                                            when(val body = response.body()){
+                                                null ->{
+                                                    Toast.makeText(context,"操作失败，请重试",Toast.LENGTH_SHORT).show()
+                                                }
+                                                else ->{
+                                                    Toast.makeText(context,body.msg,Toast.LENGTH_SHORT).show()
+                                                    if (body.code == RetrofitUtils.retrofitUtils.getSuccess()){
+                                                        dataSet.removeAt(position)
+                                                        notifyDataSetChanged()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    })
                             true
                         }
                         R.id.classStudentViewButton -> {

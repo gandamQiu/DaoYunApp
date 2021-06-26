@@ -7,8 +7,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.network.RetrofitUtils
+import com.example.network.api.ClassAndStudentNumberBody
 import com.example.network.api.ClassListApi
 import com.example.network.api.ClassinfoResponse
+import com.example.network.api.NoDataResponse
 import retrofit2.Call
 import retrofit2.Response
 
@@ -45,7 +47,24 @@ class JoinClassInformationActivity : AppCompatActivity() {
         date.setText("加载中。。。")
         teacher.setText("加载中。。。")
         button.setOnClickListener {
-            finish()
+            RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).joinClass(ClassAndStudentNumberBody(number,classNumber) )
+                    .enqueue(object : retrofit2.Callback<NoDataResponse?>{
+                        override fun onFailure(call: Call<NoDataResponse?>, t: Throwable) {
+                            Toast.makeText(this@JoinClassInformationActivity,"加入失败，请重试",Toast.LENGTH_SHORT).show()
+                        }
+
+                        override fun onResponse(call: Call<NoDataResponse?>, response: Response<NoDataResponse?>) {
+                            when(val body = response.body()){
+                                null ->{
+                                    Toast.makeText(this@JoinClassInformationActivity,"加入失败，请重试",Toast.LENGTH_SHORT).show()
+                                }
+                                else->{
+                                    Toast.makeText(this@JoinClassInformationActivity,body.msg,Toast.LENGTH_SHORT).show()
+                                    finish()
+                                }
+                            }
+                        }
+                    })
         }
         getInfo()
     }
