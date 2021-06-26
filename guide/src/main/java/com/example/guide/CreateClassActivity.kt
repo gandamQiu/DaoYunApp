@@ -8,6 +8,10 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.network.RetrofitUtils
+import com.example.network.api.*
+import retrofit2.Call
+import retrofit2.Response
 
 class CreateClassActivity : AppCompatActivity() {
     lateinit var dateSpinner: Spinner
@@ -28,6 +32,9 @@ class CreateClassActivity : AppCompatActivity() {
     lateinit var schoolText: String
     lateinit var collegeText:String
 
+    val courseNameList = ArrayList<String>()
+    val schoolList = ArrayList<String>()
+    val collegeList = ArrayList<String>()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,16 +61,16 @@ class CreateClassActivity : AppCompatActivity() {
         }
         dateText = dateList[0]
 
-        val schoolList = ArrayList<String>()
-        schoolList.add("福州大学")
+
+        schoolList.add("请选择大学")
         schoolText = schoolList[0]
 
-        val collegeList = ArrayList<String>()
-        collegeList.add("数学与计算机科学学院")
+
+        collegeList.add("请选择学院")
         collegeText = collegeList[0]
 
-        val courseNameList = ArrayList<String>()
-        //classNameList.add("工程实践")
+        courseNameList.add("请选择课程")
+        courseNameList.add("工程实践")
         courseNameList.add("其他")
         if (courseNameList.size==1){
             courseType = true
@@ -88,6 +95,65 @@ class CreateClassActivity : AppCompatActivity() {
 
         className = findViewById(R.id.createClassName)
         courseName = findViewById<EditText>(R.id.create_class_newClass)
+
+        RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).schoolList()
+                .enqueue(object :retrofit2.Callback<schoolResponse?>{
+                    override fun onResponse(call: Call<schoolResponse?>, response: Response<schoolResponse?>) {
+                        when(val body = response.body()){
+                            null -> {
+                                Toast.makeText(this@CreateClassActivity,"获取列表出错，请重试", Toast.LENGTH_SHORT).show()
+                            }
+                            else ->{
+                                if (body.code == RetrofitUtils.retrofitUtils.getSuccess()){
+                                    when(val t = body.data){
+                                        null->{}
+                                        else->{
+                                            for (i in t){
+                                                schoolList.add(i.itemvalue)
+                                                schoolAdapter.add(i.itemvalue)
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    Toast.makeText(this@CreateClassActivity,body.msg, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<schoolResponse?>, t: Throwable) {
+                        Toast.makeText(this@CreateClassActivity,"获取列表出错，请重试", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).collegeList()
+                .enqueue(object :retrofit2.Callback<collegeResponse?>{
+                    override fun onResponse(call: Call<collegeResponse?>, response: Response<collegeResponse?>) {
+                        when(val body = response.body()){
+                            null -> {
+                                Toast.makeText(this@CreateClassActivity,"获取列表出错，请重试", Toast.LENGTH_SHORT).show()
+                            }
+                            else ->{
+                                if (body.code == RetrofitUtils.retrofitUtils.getSuccess()){
+                                    when(val t = body.data){
+                                        null->{}
+                                        else->{
+                                            for (i in t){
+                                                collegeList.add(i.itemvalue)
+                                                collegeAdapter.add(i.itemvalue)
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    Toast.makeText(this@CreateClassActivity,body.msg, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<collegeResponse?>, t: Throwable) {
+                        Toast.makeText(this@CreateClassActivity,"获取列表出错，请重试", Toast.LENGTH_SHORT).show()
+                    }
+                })
 
         dateSpinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
@@ -134,6 +200,7 @@ class CreateClassActivity : AppCompatActivity() {
                     courseType = true
                 }else{
                     courseName.visibility = View.GONE
+                    courseText = courseNameList[position]
                     courseType = false
                 }
             }
@@ -148,16 +215,37 @@ class CreateClassActivity : AppCompatActivity() {
                 Toast.makeText(this,"班课名不可为空",Toast.LENGTH_SHORT).show()
             }else{
                 if(courseType) courseText = courseName.text.toString()
+                RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).createNewClass(NewClassBody(courseText,dateText,number,schoolText,collegeText))
+                        .enqueue(object :retrofit2.Callback<NewClassResponse?>{
+                            override fun onFailure(call: Call<NewClassResponse?>, t: Throwable) {
+                                Toast.makeText(this@CreateClassActivity,"创建班课出错，请重试", Toast.LENGTH_SHORT).show()
+                            }
+
+                            override fun onResponse(call: Call<NewClassResponse?>, response: Response<NewClassResponse?>) {
+                                when(val body = response.body()){
+                                    null -> {
+                                        Toast.makeText(this@CreateClassActivity,"创建班课出错，请重试", Toast.LENGTH_SHORT).show()
+                                    }else ->{
+                                        if (body.code==RetrofitUtils.retrofitUtils.getSuccess()){
+                                            val classnumber = body.data.toString()
+                                            val intent = Intent(this@CreateClassActivity,ClassNumberActivity::class.java)
+                                            intent.putExtra("number",classnumber)
+                                            startActivity(intent)
+                                            finish()
+                                        }else{
+                                            Toast.makeText(this@CreateClassActivity,body.msg, Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                }
+                            }
+                        })
                 Toast.makeText(this,"class:${className.text.toString()},date:$dateText,school:$schoolText,college:$collegeText,course:$courseText",
                     Toast.LENGTH_SHORT).show()
-                val intent = Intent(this,ClassNumberActivity::class.java)
-                intent.putExtra("number",number)
-                startActivity(intent)
-                finish()
             }
         }
         button2.setOnClickListener {
             finish()
         }
     }
+
 }

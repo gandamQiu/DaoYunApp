@@ -30,7 +30,7 @@ class JoinClassInformationActivity : AppCompatActivity() {
 
         number = intent.getStringExtra("number")!!
         classNumber = intent.getStringExtra("classNumber")!!
-        Toast.makeText(this,"number:$number, classNumber:$classNumber",Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,"number:$number, classNumber:$classNumber",Toast.LENGTH_SHORT).show()
 
         className = findViewById(R.id.classnameJoinClass)
         classJoin = findViewById(R.id.classJoinClass)

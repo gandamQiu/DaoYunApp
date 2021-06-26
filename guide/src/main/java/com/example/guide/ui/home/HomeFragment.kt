@@ -93,7 +93,7 @@ class HomeFragment : Fragment() {
                         }else{
                             val intent = Intent(activity, CreateClassActivity::class.java)
                             intent.putExtra("number",number)
-                            startActivity(intent)
+                            startActivityForResult(intent,222)
                         }
                         true
                     }
@@ -139,6 +139,12 @@ class HomeFragment : Fragment() {
                 if (resultCode==999)
                     joinClass(data?.getStringExtra("classNumber").toString())
             }
+            111 -> {
+                getListStudent(adapt2)
+            }
+            222->{
+                getListTeacher(adapt1)
+            }
             else ->{}
         }
     }
@@ -146,7 +152,7 @@ class HomeFragment : Fragment() {
         val temp = Intent(context, JoinClassInformationActivity::class.java)
         temp.putExtra("number",number)
         temp.putExtra("classNumber",string)
-        startActivity(temp)
+        startActivityForResult(temp,111)
     }
     private fun getListTeacher(adapt: ClassTeacherListAdapt){
         if (role=="2")

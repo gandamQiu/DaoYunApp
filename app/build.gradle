@@ -12,7 +12,7 @@ android{
         }
     }
     defaultConfig{
-        //multiDexEnabled true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -34,7 +34,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation project(path: ':guide')
     implementation project(path: ':network')
-    //implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:multidex:1.0.3'
 
 
 }

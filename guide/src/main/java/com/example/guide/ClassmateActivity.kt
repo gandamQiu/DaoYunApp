@@ -95,7 +95,7 @@ class ClassmateActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder is SignViewHolder){
                 holder.name.text = dataSet[position].name
-                holder.exp.text = dataSet[position].exp+"经验值"
+                holder.exp.text = dataSet[position].exp
             }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

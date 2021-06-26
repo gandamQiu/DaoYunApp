@@ -10,7 +10,6 @@ interface ClassListApi {
     fun getClassListTeacher(@Path("teacherid")number:String): Call<ClassListResponse?>
 
 
-    // TODO:  这是班级信息，学生列表没写
     @GET("studentlist/{classnumber}")
     fun getClassmateList(@Path("classnumber")number: String):Call<ClassmateResponse?>
 
@@ -22,4 +21,13 @@ interface ClassListApi {
 
     @HTTP(method = "DELETE", path = "exitclass", hasBody = true)
     fun exitClass(@Body classAndStudentNumberBody: ClassAndStudentNumberBody):Call<NoDataResponse?>
+
+    @GET("detailbycode/school")
+    fun schoolList():Call<schoolResponse?>
+
+    @GET("detailbycode/college")
+    fun collegeList():Call<collegeResponse?>
+
+    @POST("newclass")
+    fun createNewClass(@Body newClassBody: NewClassBody):Call<NewClassResponse?>
 }
