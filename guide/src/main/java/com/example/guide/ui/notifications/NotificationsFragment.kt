@@ -36,7 +36,7 @@ class NotificationsFragment : Fragment() {
             Toast.makeText(context,"版本号:1.0.0 \n已是最新版本",Toast.LENGTH_LONG).show()
         }
         aboutUs.setOnClickListener {
-            Toast.makeText(context,"工程实践1班11组：郑路伟 邱钧毅 王允斌 郭晗 \n移动端主要用于签到相关功能，更多教师操作请在前端进行 \n所有组员都是跨专业学生，如有不足之处，请多包涵",Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"工程实践1班11组：郑路伟 邱钧毅 王允斌 郭晗 \n移动端主要用于签到相关功能，以及创建和加入班课  \n所有组员都是跨专业学生，如有不足之处，请多包涵",Toast.LENGTH_LONG).show()
         }
         button.setOnClickListener {
             (activity as AppCompatActivity).setResult(666)

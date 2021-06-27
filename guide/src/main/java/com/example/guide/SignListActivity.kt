@@ -11,7 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.guide.data.SignStudent
+import com.example.network.RetrofitUtils
+import com.example.network.api.ClassListApi
+import com.example.network.api.NoSignBody
+import com.example.network.api.NoSignResponse
+import com.example.network.api.SignListResponse
 import com.google.android.material.tabs.TabLayout
+import retrofit2.Call
+import retrofit2.Response
 
 class SignListActivity : AppCompatActivity() {
     lateinit var tabLayout:TabLayout
@@ -25,12 +32,16 @@ class SignListActivity : AppCompatActivity() {
     lateinit var button:ImageButton
 
     lateinit var number:String
+    lateinit var id:String
+    var flag = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_list)
 
         number = intent.getStringExtra("number").toString()
-        Toast.makeText(this,"签到列表: $number",Toast.LENGTH_SHORT).show()
+        id = intent.getStringExtra("id").toString()
+        //Toast.makeText(this,"签到列表: $number",Toast.LENGTH_SHORT).show()
 
         tabLayout = findViewById<TabLayout>(R.id.signListTabLayout)
         refresh = findViewById<SwipeRefreshLayout>(R.id.signListRefresh)
@@ -42,15 +53,20 @@ class SignListActivity : AppCompatActivity() {
         data2 = ArrayList<SignStudent>()
         adapt1 = SignListAdapt1(data1)
         adapt2 = SignListAdapt2(data2)
+        getUnSignList(adapt1)
         list1.adapter = adapt1
         list2.adapter = adapt2
 
         refresh.setOnRefreshListener {
-            data1.add("未签到学生")
-            data2.add(SignStudent("已签到学生","1.5"))
-            adapt1.refresh(data1)
-            adapt2.refresh(data2)
-            refresh.isRefreshing = false
+            if (flag){
+                getUnSignList(adapt1).let {
+                    refresh.isRefreshing = false
+                }
+            }else{
+                getSignList(adapt2).let {
+                    refresh.isRefreshing = false
+                }
+            }
         }
 
         tabLayout.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
@@ -62,10 +78,14 @@ class SignListActivity : AppCompatActivity() {
                     0->{
                         list1.visibility = View.VISIBLE
                         list2.visibility = View.GONE
+                        flag = true
+                        getUnSignList(adapt1)
                     }
                     1 ->{
                         list1.visibility = View.GONE
                         list2.visibility = View.VISIBLE
+                        flag = false
+                        getSignList(adapt2)
                     }
                     else ->{}
                 }
@@ -77,6 +97,75 @@ class SignListActivity : AppCompatActivity() {
         button.setOnClickListener {
             finish()
         }
+    }
+    fun getUnSignList(adapt1: SignListAdapt1){
+        RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).getNoSignList(NoSignBody(number,id))
+                .enqueue(object :retrofit2.Callback<NoSignResponse?>{
+                    override fun onFailure(call: Call<NoSignResponse?>, t: Throwable) {
+                        Toast.makeText(this@SignListActivity,"加载失败，请重试",Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onResponse(call: Call<NoSignResponse?>, response: Response<NoSignResponse?>) {
+                        when(val body = response.body()){
+                            null ->{
+                                Toast.makeText(this@SignListActivity,"加载失败，请重试",Toast.LENGTH_SHORT).show()
+                            }
+                            else->{
+                                if (body.code==RetrofitUtils.retrofitUtils.getSuccess()){
+                                    when(val t = body.data){
+                                        null -> {}
+                                        else ->{
+                                            data1.clear()
+                                            for (i in t){
+                                                data1.add("${i.number} ${i.name}")
+                                            }
+                                            adapt1.refresh(data1)
+                                        }
+                                    }
+                                }else{
+                                    Toast.makeText(this@SignListActivity,body.msg,Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+                })
+    }
+    fun getSignList(adapt2: SignListAdapt2){
+        RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).getSignList(number)
+                .enqueue(object :retrofit2.Callback<SignListResponse?>{
+                    override fun onFailure(call: Call<SignListResponse?>, t: Throwable) {
+                        Toast.makeText(this@SignListActivity,"加载失败，请重试",Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onResponse(call: Call<SignListResponse?>, response: Response<SignListResponse?>) {
+                        when(val body = response.body()){
+                            null ->{
+                                Toast.makeText(this@SignListActivity,"加载失败，请重试",Toast.LENGTH_SHORT).show()
+                            }
+                            else->{
+                                if (body.code==RetrofitUtils.retrofitUtils.getSuccess()){
+                                    when(val t = body.data){
+                                        null -> {}
+                                        else ->{
+                                            when(val tt=t.studentSignList){
+                                                null -> {}
+                                                else ->{
+                                                    data2.clear()
+                                                    for(i in tt){
+                                                        data2.add(SignStudent("${i.number} ${i.name}",i.distance))
+                                                    }
+                                                    adapt2.refresh(data2)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    Toast.makeText(this@SignListActivity,body.msg,Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+                })
     }
     class SignListAdapt1(data:ArrayList<String>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         private val dataSet = ArrayList<String>()

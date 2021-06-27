@@ -30,4 +30,22 @@ interface ClassListApi {
 
     @POST("newclass")
     fun createNewClass(@Body newClassBody: NewClassBody):Call<NewClassResponse?>
+
+    @POST("teachersign")
+    fun newSign(@Body signBody: SignBody):Call<NoDataResponse?>
+
+    @GET("classsignlist/{classnumber}")
+    fun getClassSignList(@Path("classnumber")number: String):Call<SignAllResponse?>
+
+    @PUT("finishsign/{tsignid}")
+    fun finishSign(@Path("tsignid")tsignid: String):Call<NoDataResponse?>
+
+    @POST( "nosignlist")
+    fun getNoSignList(@Body noSignBody: NoSignBody):Call<NoSignResponse?>
+
+    @GET("studentsignlist/{tsignid}")
+    fun getSignList(@Path("tsignid")tsignid: String):Call<SignListResponse?>
+
+    @POST("studentsign")
+    fun studentSign(@Body studentSignBody: StudentSignBody):Call<NoDataResponse?>
 }

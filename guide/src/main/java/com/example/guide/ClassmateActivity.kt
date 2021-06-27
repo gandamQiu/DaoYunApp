@@ -28,7 +28,7 @@ class ClassmateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_classmate)
         number = this.intent.getStringExtra("number")!!
-        Toast.makeText(this,"number:$number",Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,"number:$number",Toast.LENGTH_SHORT).show()
 
         data = ArrayList<Classmate>()
 

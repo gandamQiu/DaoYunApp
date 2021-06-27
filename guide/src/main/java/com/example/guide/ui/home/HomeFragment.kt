@@ -41,6 +41,7 @@ class HomeFragment : Fragment() {
     private val testData1 = ArrayList<ClassTeacher>()
     private val testData2 = ArrayList<ClassStudent>()
 
+    lateinit var name:String
     lateinit var number:String
     lateinit var role:String
     override fun onCreateView(
@@ -57,10 +58,11 @@ class HomeFragment : Fragment() {
 
         number = (activity as AppCompatActivity).intent.getStringExtra("number")!!
         role = (activity as AppCompatActivity).intent.getStringExtra("role")!!
+        name = (activity as AppCompatActivity).intent.getStringExtra("name")!!
         //Toast.makeText(context,"number:$number, role:$role",Toast.LENGTH_SHORT).show()
 
             adapt1 = context?.let { ClassTeacherListAdapt(it,testData1,number) }!!
-            adapt2 = context?.let { ClassStudentListAdapt(it,testData2,number) }!!
+            adapt2 = context?.let { ClassStudentListAdapt(it,testData2,number,name) }!!
             binding.classCreate.adapter = adapt1
             binding.classJoin.adapter = adapt2
         if (role=="2")  getListTeacher(adapt1)
@@ -171,7 +173,7 @@ class HomeFragment : Fragment() {
                                 testData1.clear()
                                 when(val t = body.data){
                                     null ->{
-                                        Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show()
+                                        //Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show()
                                     }else -> {
                                     for(i in t){
                                         //Log.i("classnumber",i.classnumber.toString())
@@ -202,7 +204,7 @@ class HomeFragment : Fragment() {
                                     testData2.clear()
                                     when(val t = body.data){
                                         null ->{
-                                            Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show()
+                                            //Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show()
                                         }else -> {
                                         for(i in t){
                                             //Log.i("classnumber",i.classnumber.toString())

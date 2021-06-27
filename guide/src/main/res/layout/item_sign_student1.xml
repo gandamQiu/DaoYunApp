@@ -6,7 +6,7 @@
         android:id="@+id/signStudent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_margin="8dp"
         android:text="未签到"/>
     <View
         android:layout_width="match_parent"

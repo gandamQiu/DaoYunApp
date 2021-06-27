@@ -21,7 +21,7 @@ import com.example.network.api.NoDataResponse
 import retrofit2.Call
 import retrofit2.Response
 
-class ClassStudentListAdapt(private val context: Context, data:ArrayList<ClassStudent>,private val studentNumber:String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ClassStudentListAdapt(private val context: Context, data:ArrayList<ClassStudent>,private val studentNumber:String,private val name:String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val dataSet = ArrayList<ClassStudent>()
     class ClassStudentViewHolder(view: View):RecyclerView.ViewHolder(view){
         val date: TextView = view.findViewById(R.id.classStudentDate)//学期
@@ -91,6 +91,7 @@ class ClassStudentListAdapt(private val context: Context, data:ArrayList<ClassSt
                             val intent = Intent(context, StudentSignActivity::class.java)
                             intent.putExtra("number",dataSet[position].number)
                             intent.putExtra("studentNumber",studentNumber)
+                            intent.putExtra("name",name)
                             context.startActivity(intent)
                             true
                         }

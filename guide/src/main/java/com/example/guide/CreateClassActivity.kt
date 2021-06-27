@@ -239,8 +239,7 @@ class CreateClassActivity : AppCompatActivity() {
                                 }
                             }
                         })
-                Toast.makeText(this,"class:${className.text.toString()},date:$dateText,school:$schoolText,college:$collegeText,course:$courseText",
-                    Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,"class:${className.text.toString()},date:$dateText,school:$schoolText,college:$collegeText,course:$courseText", Toast.LENGTH_SHORT).show()
             }
         }
         button2.setOnClickListener {

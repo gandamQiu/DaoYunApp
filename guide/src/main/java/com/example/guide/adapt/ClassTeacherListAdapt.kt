@@ -81,13 +81,15 @@ class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTea
                     when (it1.itemId) {
                         R.id.classTeacherSignButton -> {
                             val intent = Intent(context, SignActivity::class.java)
-                            intent.putExtra("number",dataSet[position].number)
+                            intent.putExtra("number",teacherNumber)
+                            intent.putExtra("classnumber",dataSet[position].number)
                             context.startActivity(intent)
                             true
                         }
                         R.id.classTeacherSignListButton ->{
                             val intent = Intent(context, SignAllActivity::class.java)
-                            intent.putExtra("number",dataSet[position].number)
+                            intent.putExtra("number",teacherNumber)
+                            intent.putExtra("classnumber",dataSet[position].number)
                             context.startActivity(intent)
                             true
                         }
