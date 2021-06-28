@@ -10,4 +10,7 @@
     <item
         android:id="@+id/classTeacherViewButton"
         android:title="学生列表" />
+    <item
+        android:id="@+id/classTeacherNumberButton"
+        android:title="查看班课号" />
 </menu>

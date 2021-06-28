@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="创建班课"
+            android:text="班课号"
             android:textAlignment="center"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -30,14 +30,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="班课号"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/newClassNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TextView"
+        android:text="加载中。。。"
         android:textAlignment="center"
         android:textSize="30sp" />
 

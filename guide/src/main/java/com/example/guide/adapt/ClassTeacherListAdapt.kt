@@ -9,10 +9,7 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.guide.ClassmateActivity
-import com.example.guide.R
-import com.example.guide.SignActivity
-import com.example.guide.SignAllActivity
+import com.example.guide.*
 import com.example.guide.data.ClassTeacher
 
 class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTeacher>,private val teacherNumber:String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -95,6 +92,12 @@ class ClassTeacherListAdapt(private val context: Context,data:ArrayList<ClassTea
                         }
                         R.id.classTeacherViewButton -> {
                             val intent = Intent(context, ClassmateActivity::class.java)
+                            intent.putExtra("number",dataSet[position].number)
+                            context.startActivity(intent)
+                            true
+                        }
+                        R.id.classTeacherNumberButton -> {
+                            val intent = Intent(context,ClassNumberActivity::class.java)
                             intent.putExtra("number",dataSet[position].number)
                             context.startActivity(intent)
                             true

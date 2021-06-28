@@ -1,5 +1,6 @@
 package com.example.guide.ui.home
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -111,6 +113,7 @@ class HomeFragment : Fragment() {
                         if (role=="2"){
                             Toast.makeText(context,"教师只能创建班课",Toast.LENGTH_SHORT).show()
                         }else{
+                            requestCameraPermission()
                             val options =
                                     HmsScanAnalyzerOptions.Creator()
                                             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE).create()
@@ -217,6 +220,14 @@ class HomeFragment : Fragment() {
                             }
                         }
                     })
+    }
+    private fun requestCameraPermission() {
+        //CAMERA_REQ_CODE为用户自定义，用于接收权限校验结果
+        ActivityCompat.requestPermissions(
+                (activity as AppCompatActivity),
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
+                CAMERA_REQ_CODE
+        )
     }
     class tabListener(
         private val list1: SwipeRefreshLayout,

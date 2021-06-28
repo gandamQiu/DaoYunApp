@@ -1,1 +1,2 @@
-restapi https://github.com/gandamQiu/DaoYunApp/blob/main/network/src/main/java/com/example/network/RetrofitUtils.kt
+已完成功能：注册、登录、创建班课、加入班课（班课号、二维码）、发布签到、学生签到
+使用技术：Android原生组件、ZXing(生成二维码)、华为ScanKit（扫面二维码）、百度地图（GPS读取）
