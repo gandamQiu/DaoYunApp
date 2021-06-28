@@ -59,7 +59,7 @@ class CreateClassActivity : AppCompatActivity() {
             dateList.add((year+1).toString()+"-"+(year+2).toString()+"-1")
             dateList.add((year+1).toString()+"-"+(year+2).toString()+"-2")
         }
-        dateText = dateList[0]
+        dateText = dateList[0].toString()
 
 
         schoolList.add("请选择大学")
@@ -110,8 +110,8 @@ class CreateClassActivity : AppCompatActivity() {
                                         else->{
                                             for (i in t){
                                                 schoolList.add(i.itemvalue)
-                                                schoolAdapter.add(i.itemvalue)
                                             }
+                                            schoolAdapter = ArrayAdapter<String>(this@CreateClassActivity,R.layout.support_simple_spinner_dropdown_item,schoolList)
                                         }
                                     }
                                 }else{
@@ -139,8 +139,8 @@ class CreateClassActivity : AppCompatActivity() {
                                         else->{
                                             for (i in t){
                                                 collegeList.add(i.itemvalue)
-                                                collegeAdapter.add(i.itemvalue)
                                             }
+                                            collegeAdapter = ArrayAdapter<String>(this@CreateClassActivity,R.layout.support_simple_spinner_dropdown_item,collegeList)
                                         }
                                     }
                                 }else{
@@ -215,7 +215,8 @@ class CreateClassActivity : AppCompatActivity() {
                 Toast.makeText(this,"班课名不可为空",Toast.LENGTH_SHORT).show()
             }else{
                 if(courseType) courseText = courseName.text.toString()
-                RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).createNewClass(NewClassBody(courseText,dateText,number,schoolText,collegeText))
+                val classnameText:String = className.text.toString()
+                RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).createNewClass(NewClassBody("$classnameText $courseText",dateText,number,schoolText,collegeText))
                         .enqueue(object :retrofit2.Callback<NewClassResponse?>{
                             override fun onFailure(call: Call<NewClassResponse?>, t: Throwable) {
                                 Toast.makeText(this@CreateClassActivity,"创建班课出错，请重试", Toast.LENGTH_SHORT).show()
