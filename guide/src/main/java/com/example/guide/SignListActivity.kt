@@ -1,9 +1,11 @@
 package com.example.guide
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -12,10 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.guide.data.SignStudent
 import com.example.network.RetrofitUtils
-import com.example.network.api.ClassListApi
-import com.example.network.api.NoSignBody
-import com.example.network.api.NoSignResponse
-import com.example.network.api.SignListResponse
+import com.example.network.api.*
 import com.google.android.material.tabs.TabLayout
 import retrofit2.Call
 import retrofit2.Response
@@ -25,7 +24,7 @@ class SignListActivity : AppCompatActivity() {
     lateinit var refresh:SwipeRefreshLayout
     lateinit var list1:RecyclerView
     lateinit var list2:RecyclerView
-    lateinit var data1:ArrayList<String>
+    lateinit var data1:ArrayList<SignStudent>
     lateinit var data2:ArrayList<SignStudent>
     lateinit var adapt1: SignListAdapt1
     lateinit var adapt2: SignListAdapt2
@@ -39,8 +38,8 @@ class SignListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_list)
 
-        number = intent.getStringExtra("number").toString()
-        id = intent.getStringExtra("id").toString()
+        number = intent.getStringExtra("number").toString()//签到号
+        id = intent.getStringExtra("id").toString()//班课号
         //Toast.makeText(this,"签到列表: $number",Toast.LENGTH_SHORT).show()
 
         tabLayout = findViewById<TabLayout>(R.id.signListTabLayout)
@@ -49,9 +48,9 @@ class SignListActivity : AppCompatActivity() {
         list2 = findViewById<RecyclerView>(R.id.signList2)
         button = findViewById(R.id.signListReturnButton)
 
-        data1 = ArrayList<String>()
+        data1 = ArrayList<SignStudent>()
         data2 = ArrayList<SignStudent>()
-        adapt1 = SignListAdapt1(data1)
+        adapt1 = SignListAdapt1(this,data1,id,number)
         adapt2 = SignListAdapt2(data2)
         getUnSignList(adapt1)
         list1.adapter = adapt1
@@ -117,7 +116,7 @@ class SignListActivity : AppCompatActivity() {
                                         else ->{
                                             data1.clear()
                                             for (i in t){
-                                                data1.add("${i.number} ${i.name}")
+                                                data1.add(SignStudent(i.name,i.number))
                                             }
                                             adapt1.refresh(data1)
                                         }
@@ -167,10 +166,11 @@ class SignListActivity : AppCompatActivity() {
                     }
                 })
     }
-    class SignListAdapt1(data:ArrayList<String>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-        private val dataSet = ArrayList<String>()
+    class SignListAdapt1(private val context: Context,data:ArrayList<SignStudent>,private val classnumber:String,private val tsignid:String): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+        private val dataSet = ArrayList<SignStudent>()
         class SignViewHolder(view: View):RecyclerView.ViewHolder(view){
             val name = view.findViewById<TextView>(R.id.signStudent)
+            val button = view.findViewById<Button>(R.id.suSignButton)
         }
         init {
             dataSet.addAll(data)
@@ -180,7 +180,31 @@ class SignListActivity : AppCompatActivity() {
         }
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder is SignViewHolder){
-                holder.name.text = dataSet[position]
+                holder.name.text = dataSet[position].distance + " " +dataSet[position].name
+                holder.button.setOnClickListener {
+                    RetrofitUtils.retrofitUtils.getService(ClassListApi::class.java).susign(SuSignBody(tsignid,dataSet[position].distance,classnumber,dataSet[position].name))
+                            .enqueue(object :retrofit2.Callback<NoDataResponse?>{
+                                override fun onFailure(call: Call<NoDataResponse?>, t: Throwable) {
+                                    Toast.makeText(context,"操作失败，请重试",Toast.LENGTH_SHORT).show()
+                                }
+
+                                override fun onResponse(call: Call<NoDataResponse?>, response: Response<NoDataResponse?>) {
+                                    when(val body = response.body()){
+                                        null ->{
+                                            Toast.makeText(context,"操作失败，请重试",Toast.LENGTH_SHORT).show()
+                                        }
+                                        else->{
+                                            if (body.code==RetrofitUtils.retrofitUtils.getSuccess()){
+                                                Toast.makeText(context,"补签成功，请下拉刷新",Toast.LENGTH_SHORT).show()
+                                            }
+                                            else{
+                                                Toast.makeText(context,body.msg,Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    }
+                                }
+                            })
+                }
             }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -188,7 +212,7 @@ class SignListActivity : AppCompatActivity() {
                     .inflate(R.layout.item_sign_student1,parent,false)
             return SignViewHolder(view)
         }
-        fun refresh(newData:ArrayList<String>){
+        fun refresh(newData:ArrayList<SignStudent>){
             dataSet.clear()
             dataSet.addAll(newData)
             notifyDataSetChanged()

@@ -48,4 +48,7 @@ interface ClassListApi {
 
     @POST("studentsign")
     fun studentSign(@Body studentSignBody: StudentSignBody):Call<NoDataResponse?>
+
+    @POST("susign")
+    fun susign(@Body suSignBody: SuSignBody):Call<NoDataResponse?>
 }
