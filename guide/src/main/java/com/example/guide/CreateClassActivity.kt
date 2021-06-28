@@ -209,7 +209,14 @@ class CreateClassActivity : AppCompatActivity() {
         }
 
         button1.setOnClickListener {
-            if (courseType&&courseName.text.toString()==""){
+            if(schoolText=="请选择大学"){
+                Toast.makeText(this,"请选择大学",Toast.LENGTH_SHORT).show()
+            }else if (collegeText=="请选择学院"){
+                Toast.makeText(this,"请选择学院",Toast.LENGTH_SHORT).show()
+            }else if (courseText=="请选择课程"){
+                Toast.makeText(this,"请选择课程",Toast.LENGTH_SHORT).show()
+            }
+            else if (courseType&&courseName.text.toString()==""){
                 Toast.makeText(this,"课程名不可为空",Toast.LENGTH_SHORT).show()
             }else if (className.text.toString()==""){
                 Toast.makeText(this,"班课名不可为空",Toast.LENGTH_SHORT).show()
