@@ -213,7 +213,7 @@ class CreateClassActivity : AppCompatActivity() {
                 Toast.makeText(this,"请选择大学",Toast.LENGTH_SHORT).show()
             }else if (collegeText=="请选择学院"){
                 Toast.makeText(this,"请选择学院",Toast.LENGTH_SHORT).show()
-            }else if (courseText=="请选择课程"){
+            }else if (!courseType && courseText=="请选择课程"){
                 Toast.makeText(this,"请选择课程",Toast.LENGTH_SHORT).show()
             }
             else if (courseType&&courseName.text.toString()==""){
