@@ -32,8 +32,8 @@ class SignAllActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_all)
-        number = intent.getStringExtra("number").toString()
-        classnumber = intent.getStringExtra("classnumber").toString()
+        number = intent.getStringExtra("number").toString()//教师号
+        classnumber = intent.getStringExtra("classnumber").toString()//班课号
         //Toast.makeText(this, "查看签到: $number", Toast.LENGTH_SHORT).show()
 
         button = findViewById(R.id.signAllReturnButton)
@@ -65,6 +65,7 @@ class SignAllActivity : AppCompatActivity() {
                                         else ->{
                                             dataset.clear()
                                             for (i in t){
+                                                if (i!=null)
                                                 dataset.add(0,SignData(i.retime,i.tsignid,i.state.toInt()))
                                             }
                                             adapt.refresh(dataset)

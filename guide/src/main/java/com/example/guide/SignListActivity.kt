@@ -116,6 +116,7 @@ class SignListActivity : AppCompatActivity() {
                                         else ->{
                                             data1.clear()
                                             for (i in t){
+                                                if (i!=null)
                                                 data1.add(SignStudent(i.name,i.number))
                                             }
                                             adapt1.refresh(data1)
@@ -151,6 +152,7 @@ class SignListActivity : AppCompatActivity() {
                                                 else ->{
                                                     data2.clear()
                                                     for(i in tt){
+                                                        if (i!=null)
                                                         data2.add(SignStudent("${i.number} ${i.name}",i.distance))
                                                     }
                                                     adapt2.refresh(data2)

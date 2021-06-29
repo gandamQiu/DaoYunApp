@@ -179,6 +179,7 @@ class HomeFragment : Fragment() {
                                         //Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show()
                                     }else -> {
                                     for(i in t){
+                                        if (i!=null)
                                         //Log.i("classnumber",i.classnumber.toString())
                                         testData1.add(ClassTeacher(i.classsemester.toString(),"",i.classname.toString(),i.school.toString(),i.college.toString(),i.classnumber.toString()))
                                     }
@@ -210,6 +211,7 @@ class HomeFragment : Fragment() {
                                             //Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show()
                                         }else -> {
                                         for(i in t){
+                                            if (i!=null)
                                             //Log.i("classnumber",i.classnumber.toString())
                                             testData2.add(ClassStudent(i.classsemester.toString(),"",i.classname.toString(),i.school.toString(),i.college.toString(),i.classnumber.toString(),teacher=""))
                                         }

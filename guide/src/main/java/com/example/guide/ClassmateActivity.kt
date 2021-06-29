@@ -68,8 +68,8 @@ class ClassmateActivity : AppCompatActivity() {
                                             Toast.makeText(this@ClassmateActivity, body.msg, Toast.LENGTH_SHORT).show()
                                         }else -> {
                                         for(i in t){
-                                            //Log.i("classnumber",i.classnumber.toString())
-                                            data.add(Classmate(i.name,"学号${i.number}"))
+                                            if (i!=null)
+                                                data.add(Classmate(i.name.toString(),"学号${i.number.toString()}"))
                                             }
                                         }
                                     }
